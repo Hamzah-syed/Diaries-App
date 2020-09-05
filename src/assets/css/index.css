@@ -42,3 +42,7 @@ code {
 .textWhiteSecondary {
   color: #e6e6e6;
 }
+
+.AnchorTagStyle {
+  text-decoration: none;
+}

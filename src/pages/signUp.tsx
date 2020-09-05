@@ -31,7 +31,7 @@ const useStyle = makeStyles((theme) => ({
   },
   mainright: {
     borderRadius: "0.375rem",
-    minHeight: "350px",
+    minHeight: "400px",
     maxWidth: "500px",
     boxShadow:
       "0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)",
@@ -44,7 +44,7 @@ const useStyle = makeStyles((theme) => ({
     margin: "0 auto",
   },
 }));
-const Login = () => {
+const SignUp = () => {
   const classes = useStyle();
 
   return (
@@ -75,13 +75,13 @@ const Login = () => {
                     </Typography>
                   </Box>
                   <Box py={2}>
-                    <Link className="AnchorTagStyle" to="/signup">
+                    <Link className="AnchorTagStyle" to="/">
                       <Button
                         variant="contained"
                         color="primary"
                         disableElevation
                       >
-                        Signup
+                        Sign in
                       </Button>
                     </Link>
                   </Box>
@@ -103,11 +103,21 @@ const Login = () => {
                     className="textBlack"
                     style={{ fontWeight: 600 }}
                   >
-                    Login
+                    Signup
                   </Typography>
                 </Box>
                 <Box>
                   <form noValidate autoComplete="off">
+                    <Box py={1}>
+                      <TextField
+                        fullWidth
+                        id="outlined-basic"
+                        label="Name"
+                        size="small"
+                        color="secondary"
+                        variant="outlined"
+                      />
+                    </Box>
                     <Box py={1}>
                       <TextField
                         fullWidth
@@ -136,7 +146,7 @@ const Login = () => {
                     color="secondary"
                     disableElevation
                   >
-                    Sign in
+                    Signup
                   </Button>
                 </Box>
               </Box>
@@ -148,4 +158,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default SignUp;
