@@ -96,8 +96,8 @@ const Login = () => {
               alignItems="center"
               justify="center"
             >
-              <Box px={3} className={classes.form}>
-                <Box py={3}>
+              <Box className={classes.form}>
+                <Box py={5}>
                   <Typography
                     variant="h4"
                     className="textBlack"

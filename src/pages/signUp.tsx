@@ -96,7 +96,7 @@ const SignUp = () => {
               alignItems="center"
               justify="center"
             >
-              <Box px={3} className={classes.form}>
+              <Box px={5} className={classes.form}>
                 <Box py={3}>
                   <Typography
                     variant="h4"
