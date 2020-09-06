@@ -7,7 +7,7 @@ import { User } from "../../../interfaces/user.interface";
 //for handling error
 import { handleError } from "../server";
 
-export const create = (
+export const createDiary = (
   schema: any,
   req: Request
 ): { user: User; diary: Diary } | Response => {
@@ -20,7 +20,7 @@ export const create = (
       return handleError(null, "No such user exists.");
     }
     const now = dayjs().format();
-    const diary = exUser.createDiary({
+    const diary = exUser.create({
       title,
       type,
       createdAt: now,
@@ -34,5 +34,32 @@ export const create = (
     };
   } catch (error) {
     return handleError(error, "Failed to create Diary.");
+  }
+};
+
+export const updateDiary = (schema: any, req: Request): Diary | Response => {
+  try {
+    const diary = schema.diaries.findBy(req.params.id);
+    const data = JSON.parse(req.requestBody) as Partial<Diary>;
+
+    const now = dayjs().format();
+
+    diary.update({
+      ...data,
+      updatedAt: now,
+    });
+
+    return diary.attrs as Diary;
+  } catch (error) {
+    return handleError(error, "Failed to update Diary.");
+  }
+};
+
+export const getDiaries = (schema: any, req: Request): Diary[] | Response => {
+  try {
+    const user = schema.diaries.find(req.params.id);
+    return user.diary as Diary[];
+  } catch (error) {
+    return handleError(error, "Could not get user diaries.");
   }
 };
