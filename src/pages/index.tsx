@@ -19,7 +19,6 @@ const useStyle = makeStyles((theme) => ({
     minHeight: "600px",
     display: "flex",
     alignItems: "center",
-    borderRadius: "0.375rem",
     background: "#158FC5",
     [theme.breakpoints.down("sm")]: {},
   },
@@ -96,8 +95,8 @@ const Login = () => {
               alignItems="center"
               justify="center"
             >
-              <Box className={classes.form}>
-                <Box py={5}>
+              <Box px={5} className={classes.form}>
+                <Box py={3}>
                   <Typography
                     variant="h4"
                     className="textBlack"

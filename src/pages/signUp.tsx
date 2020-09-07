@@ -19,7 +19,7 @@ const useStyle = makeStyles((theme) => ({
     minHeight: "600px",
     display: "flex",
     alignItems: "center",
-    borderRadius: "0.375rem",
+
     background: "#158FC5",
     [theme.breakpoints.down("sm")]: {},
   },

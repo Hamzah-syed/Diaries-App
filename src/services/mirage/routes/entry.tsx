@@ -60,7 +60,7 @@ export const updateEntry = (schema: any, req: Request): Entry | Response => {
 };
 
 //get all entries
-const getEntries = (schema: any, req: Request): Entry[] | Response => {
+export const getEntries = (schema: any, req: Request): Entry[] | Response => {
   try {
     const diary = schema.diaries.find(req.params.id);
     return diary.entry as Entry[];
