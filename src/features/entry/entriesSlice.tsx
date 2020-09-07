@@ -2,7 +2,7 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 //interface
 import { Entry } from "../../interfaces/entry.interface";
 
-export const Entries = createSlice({
+const Entries = createSlice({
   name: "Enteies",
   initialState: [] as Entry[],
   reducers: {
@@ -21,3 +21,4 @@ export const Entries = createSlice({
 });
 
 export const { addEntry, updateEntry } = Entries.actions;
+export default Entries.reducer;

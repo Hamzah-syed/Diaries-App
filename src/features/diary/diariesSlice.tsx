@@ -2,7 +2,7 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 //interface
 import { Diary } from "../../interfaces/diary.interface";
 
-export const diaries = createSlice({
+const diaries = createSlice({
   name: "diaries",
   initialState: [] as Diary[],
   reducers: {
@@ -33,3 +33,4 @@ export const diaries = createSlice({
 });
 
 export const { addDiary, updateDiary } = diaries.actions;
+export default diaries.reducer;

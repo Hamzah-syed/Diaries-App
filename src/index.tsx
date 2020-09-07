@@ -5,6 +5,9 @@ import App from "./App";
 import * as serviceWorker from "./serviceWorker";
 //server
 import { setupServer } from "./services/mirage/server";
+//redux store
+import { Provider } from "react-redux";
+import store from "./store";
 
 if (process.env.NODE_ENV === "development") {
   setupServer("development");
@@ -12,7 +15,9 @@ if (process.env.NODE_ENV === "development") {
 
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+    <Provider store={store}>
+      <App />
+    </Provider>
   </React.StrictMode>,
   document.getElementById("root")
 );
