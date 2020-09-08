@@ -1,27 +1,40 @@
-import React from "react";
+import React, { FC, lazy, Suspense } from "react";
 import logo from "./logo.svg";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+//redux
+import { useSelector } from "react-redux";
 //theme
 import { ThemeProvider } from "@material-ui/core";
 import { theme } from "./theme";
+//reducer type
+import { rootState } from "./store/rootReducer";
 //pages
-import Login from "./pages/index";
-import SignUp from "./pages/signUp";
+const Login = lazy(() => import("./pages/index"));
+const SignUp = lazy(() => import("./pages/signUp"));
+const Home = lazy(() => import("./pages/home"));
 
-function App() {
+const App: FC = () => {
+  const isLoggedIn = useSelector(
+    (state: rootState) => state.auth.isAuthenticated
+  );
   return (
     <div>
       <ThemeProvider theme={theme}>
         <Router>
-          <Routes>
-            <Route path="/" element={<Login />}></Route>
-            <Route path="/signup" element={<SignUp />}></Route>
-            <Route path="*" element={<Login />}></Route>
-          </Routes>
+          <Suspense fallback={<p>loading</p>}>
+            <Routes>
+              <Route
+                path="/"
+                element={isLoggedIn ? <Home /> : <Login />}
+              ></Route>
+              <Route path="/signup" element={<SignUp />}></Route>
+              <Route path="*" element={<Login />}></Route>
+            </Routes>
+          </Suspense>
         </Router>
       </ThemeProvider>
     </div>
   );
-}
+};
 
 export default App;

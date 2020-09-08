@@ -1,5 +1,20 @@
-import React from "react";
+import React, { FC, useState } from "react";
 import { Link } from "react-router-dom";
+//react form
+import { useForm, Controller } from "react-hook-form";
+//Yup which will be used for validation
+import * as Yup from "yup";
+import { yupResolver } from "@hookform/resolvers";
+//api
+import http from "../services/api";
+//redux slice
+import { setAuthState, saveToken } from "../features/auth/authSlice";
+import { setUser } from "../features/auth/userSlice";
+//interface
+import { User } from "../interfaces/user.interface";
+import { AuthResponse } from "../services/mirage/routes/user";
+//dispatch
+import { useAppDispatch } from "../store/index";
 //mui core
 import { makeStyles } from "@material-ui/core";
 //mui components
@@ -43,9 +58,51 @@ const useStyle = makeStyles((theme) => ({
     margin: "0 auto",
   },
 }));
-const Login = () => {
-  const classes = useStyle();
 
+//validation schema of form
+const schema = Yup.object().shape({
+  // username: Yup.string()
+  //   .required("Username is required")
+  //   .max(16, "Username cannot be longer than 16 characters"),
+  password: Yup.string().required("Password is required"),
+  email: Yup.string()
+    .email("Please provide a valid email address (abc@xy.z)")
+    .required("Email is required"),
+});
+
+const Login: FC = () => {
+  const classes = useStyle();
+  //dispatch of redux which is custom created in store
+  const dispatch = useAppDispatch();
+
+  //for loading state
+  const [loading, setLoading] = useState<boolean>(false);
+
+  //react form hook for validation
+  const { handleSubmit, register, errors, control } = useForm<User>({
+    resolver: yupResolver(schema),
+  });
+
+  const submitForm = (data: User) => {
+    const path = "/auth/login";
+    http
+      .post<User, AuthResponse>(path, data)
+      .then((res) => {
+        if (res) {
+          const { token, user } = res;
+          dispatch(saveToken(token));
+          dispatch(setUser(user));
+          dispatch(setAuthState(true));
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+      })
+      .finally(() => {
+        setLoading(false);
+      });
+  };
+  console.log(errors);
   return (
     <div>
       <div className={classes.root}>
@@ -106,37 +163,54 @@ const Login = () => {
                   </Typography>
                 </Box>
                 <Box>
-                  <form noValidate autoComplete="off">
+                  <form
+                    noValidate
+                    autoComplete="off"
+                    onSubmit={handleSubmit(submitForm)}
+                  >
                     <Box py={1}>
-                      <TextField
+                      <Controller
+                        as={<TextField />}
+                        name="email"
                         fullWidth
-                        id="outlined-basic"
                         label="Email"
                         size="small"
                         color="secondary"
                         variant="outlined"
+                        helperText={errors.email?.message}
+                        error={errors && errors.email && true}
+                        control={control}
+                        defaultValue=""
                       />
                     </Box>
                     <Box py={1}>
-                      <TextField
+                      <Controller
+                        as={<TextField />}
+                        name="password"
                         fullWidth
-                        id="outlined-basic"
                         label="Password"
-                        color="secondary"
                         size="small"
+                        color="secondary"
                         variant="outlined"
+                        type="password"
+                        helperText={errors.password?.message}
+                        error={errors && errors.password && true}
+                        control={control}
+                        defaultValue=""
                       />
                     </Box>
+                    <Box py={2}>
+                      <Button
+                        variant="contained"
+                        color="secondary"
+                        type="submit"
+                        disabled={loading}
+                        disableElevation
+                      >
+                        Sign in
+                      </Button>
+                    </Box>
                   </form>
-                </Box>
-                <Box py={2}>
-                  <Button
-                    variant="contained"
-                    color="secondary"
-                    disableElevation
-                  >
-                    Sign in
-                  </Button>
                 </Box>
               </Box>
             </Grid>
