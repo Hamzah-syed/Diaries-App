@@ -15,6 +15,9 @@ import { User } from "../interfaces/user.interface";
 import { AuthResponse } from "../services/mirage/routes/user";
 //dispatch
 import { useAppDispatch } from "../store/index";
+//useselector
+import { useSelector } from "react-redux";
+import { rootState } from "../store/rootReducer";
 //mui core
 import { makeStyles } from "@material-ui/core";
 //mui components
@@ -74,6 +77,10 @@ const schema = Yup.object().shape({
 
 const Login: FC = () => {
   const classes = useStyle();
+  //useSelector, to fill the feild when user signup
+  const email = useSelector<rootState>((state) => state.user?.email);
+  const password = useSelector<rootState>((state) => state.user?.password);
+
   //dispatch of redux which is custom created in store
   const dispatch = useAppDispatch();
 
@@ -181,7 +188,7 @@ const Login: FC = () => {
                         helperText={errors.email?.message}
                         error={errors && errors.email && true}
                         control={control}
-                        defaultValue=""
+                        defaultValue={email !== undefined ? email : ""}
                       />
                     </Box>
                     <Box py={1}>
@@ -197,7 +204,7 @@ const Login: FC = () => {
                         helperText={errors.password?.message}
                         error={errors && errors.password && true}
                         control={control}
-                        defaultValue=""
+                        defaultValue={password !== undefined ? password : ""}
                       />
                     </Box>
                     <Box py={2}>

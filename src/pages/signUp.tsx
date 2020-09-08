@@ -95,7 +95,7 @@ const SignUp: FC = () => {
         if (res) {
           const { token, user } = res;
           // dispatch(saveToken(token));
-          // dispatch(setUser(user));
+          dispatch(setUser(user));
           // dispatch(setAuthState(true));
 
           navigate("/");

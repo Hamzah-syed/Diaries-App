@@ -24,12 +24,16 @@ const App: FC = () => {
           <Suspense fallback={<p>loading</p>}>
             <Routes>
               {isLoggedIn ? (
-                <Route path="/" element={<Home />}></Route>
+                <>
+                  <Route path="/" element={<Home />}></Route>
+                </>
               ) : (
-                <Route path="/" element={<Login />}></Route>
+                <>
+                  <Route path="/" element={<Login />}></Route>
+                  <Route path="/signup" element={<SignUp />}></Route>
+                </>
               )}
-              <Route path="/signup" element={<SignUp />}></Route>
-              <Route path="*" element={<Login />}></Route>
+              <Route path="*" element={<Home />}></Route>
             </Routes>
           </Suspense>
         </Router>
