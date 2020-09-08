@@ -34,7 +34,7 @@ export const setupServer = (env: string): Server => {
       user: Factory.extend({
         name: "hamzah",
         email: "test@abc.com",
-        password: "123",
+        password: "hamzah123",
       }),
     },
     seeds: (server): any => {

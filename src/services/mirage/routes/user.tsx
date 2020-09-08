@@ -16,9 +16,9 @@ export interface AuthResponse {
 const signin = (schema: any, req: Request): AuthResponse | Response => {
   //email and password are extracting from the input provided by user
   const { email, password } = JSON.parse(req.requestBody);
-  const user = schema.users.findBy({ email });
+  const user = schema.users.findBy({ email, password });
 
-  if (!user) {
+  if (email !== user.email) {
     handleError(null, "User does not exist");
   }
   if (password !== user.password) {

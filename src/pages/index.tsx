@@ -64,7 +64,9 @@ const schema = Yup.object().shape({
   // username: Yup.string()
   //   .required("Username is required")
   //   .max(16, "Username cannot be longer than 16 characters"),
-  password: Yup.string().required("Password is required"),
+  password: Yup.string()
+    .required("Password is required")
+    .min(8, "Password length should be greater than 8"),
   email: Yup.string()
     .email("Please provide a valid email address (abc@xy.z)")
     .required("Email is required"),
@@ -79,7 +81,7 @@ const Login: FC = () => {
   const [loading, setLoading] = useState<boolean>(false);
 
   //react form hook for validation
-  const { handleSubmit, register, errors, control } = useForm<User>({
+  const { handleSubmit, errors, control } = useForm<User>({
     resolver: yupResolver(schema),
   });
 
@@ -102,7 +104,6 @@ const Login: FC = () => {
         setLoading(false);
       });
   };
-  console.log(errors);
   return (
     <div>
       <div className={classes.root}>

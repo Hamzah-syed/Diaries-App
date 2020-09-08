@@ -23,10 +23,11 @@ const App: FC = () => {
         <Router>
           <Suspense fallback={<p>loading</p>}>
             <Routes>
-              <Route
-                path="/"
-                element={isLoggedIn ? <Home /> : <Login />}
-              ></Route>
+              {isLoggedIn ? (
+                <Route path="/" element={<Home />}></Route>
+              ) : (
+                <Route path="/" element={<Login />}></Route>
+              )}
               <Route path="/signup" element={<SignUp />}></Route>
               <Route path="*" element={<Login />}></Route>
             </Routes>
