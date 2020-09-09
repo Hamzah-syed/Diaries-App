@@ -12,6 +12,7 @@ import { rootState } from "./store/rootReducer";
 const Login = lazy(() => import("./pages/index"));
 const SignUp = lazy(() => import("./pages/signUp"));
 const Home = lazy(() => import("./pages/home"));
+const Editor = lazy(() => import("./pages/editor"));
 
 const App: FC = () => {
   const isLoggedIn = useSelector(
@@ -26,6 +27,7 @@ const App: FC = () => {
               {isLoggedIn ? (
                 <>
                   <Route path="/" element={<Home />}></Route>
+                  <Route path="/editor" element={<Editor />}></Route>
                 </>
               ) : (
                 <>
@@ -33,7 +35,7 @@ const App: FC = () => {
                   <Route path="/signup" element={<SignUp />}></Route>
                 </>
               )}
-              <Route path="*" element={<Home />}></Route>
+              <Route path="*" element={<Editor />}></Route>
             </Routes>
           </Suspense>
         </Router>
