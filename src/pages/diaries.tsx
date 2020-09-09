@@ -13,6 +13,9 @@ import DiaryEntriesList from "./diaryEntriesList";
 import { useAppDispatch } from "../store";
 import dayjs from "dayjs";
 import { setAuthState } from "../features/auth/authSlice";
+//components
+import DiariesList from "./diariesList";
+
 //mui
 import {
   Container,
@@ -65,8 +68,8 @@ const schema = Yup.object().shape({
     .required("Title is required")
     .max(50, "Title length should be less than 50"),
   description: Yup.string().max(
-    255,
-    "description length should be less than 255"
+    100,
+    "description length should be less than 100"
   ),
   shareWith: Yup.string().required("Kindly select any of the following"),
 });
@@ -162,7 +165,7 @@ const Diaries: FC = () => {
     });
     if (diary && user) {
       dispatch(addDiary([diary] as Diary[]));
-      dispatch(addDiary([diary] as Diary[]));
+
       dispatch(setUser(_user));
     }
     console.log(data);
@@ -274,12 +277,16 @@ const Diaries: FC = () => {
                     </Box>
                   </form>
                 </Box>
+                <div>
+                  <DiariesList diaries={diaries} />
+                </div>
               </Grid>
               <Grid item md={4} container></Grid>
             </Grid>
           </div>
         </Container>
       </div>
+
       {/* <Routes> */}
       {/* <Route path="/diary/:id">
           <DiaryEntriesList />

@@ -17,6 +17,7 @@ import * as Yup from "yup";
 import { useForm, Controller } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers";
 import { Diary } from "../interfaces/diary.interface";
+import DiariesList from "./diariesList";
 
 const useStyle = makeStyles((theme) => ({
   root: {
@@ -174,6 +175,9 @@ const Demo = () => {
                   </Box>
                 </form>
               </Box>
+              <div style={{ width: "100%", paddingTop: "30px" }}>
+                {/* <DiariesList /> */}
+              </div>
             </Grid>
             <Grid item md={4} container></Grid>
           </Grid>
