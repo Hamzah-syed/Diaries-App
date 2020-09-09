@@ -8,11 +8,13 @@ import { ThemeProvider } from "@material-ui/core";
 import { theme } from "./theme";
 //reducer type
 import { rootState } from "./store/rootReducer";
+
 //pages
 const Login = lazy(() => import("./pages/index"));
 const SignUp = lazy(() => import("./pages/signUp"));
 const Home = lazy(() => import("./pages/home"));
 const Editor = lazy(() => import("./pages/editor"));
+const Demo = lazy(() => import("./pages/demo"));
 
 const App: FC = () => {
   const isLoggedIn = useSelector(
@@ -35,7 +37,7 @@ const App: FC = () => {
                   <Route path="/signup" element={<SignUp />}></Route>
                 </>
               )}
-              <Route path="*" element={<Editor />}></Route>
+              <Route path="*" element={<Demo />}></Route>
             </Routes>
           </Suspense>
         </Router>

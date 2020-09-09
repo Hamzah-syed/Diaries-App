@@ -50,7 +50,54 @@ const DiaryTile: FC<props> = (props) => {
       });
   };
 
-  return <div></div>;
+  return (
+    <div>
+      <div className="diary-tile">
+        <h2
+          className="title"
+          title="Click to edit"
+          onClick={() => setIsEditing(true)}
+          style={{
+            cursor: "pointer",
+          }}
+        >
+          {isEditing ? (
+            <input
+              value={diary.title}
+              onChange={(e) => {
+                setDiary({
+                  ...diary,
+                  title: e.target.value,
+                });
+              }}
+              onKeyUp={(e) => {
+                if (e.key === "Enter") {
+                  saveChanges();
+                }
+              }}
+            />
+          ) : (
+            <span>{diary.title}</span>
+          )}
+        </h2>
+        <p className="subtitle">{totalEntries ?? "0"} saved entries</p>
+        <div style={{ display: "flex" }}>
+          <button
+            onClick={() => {
+              dispatch(setCanEdit(true));
+              dispatch(setActiveDiary(diary.id as string));
+              dispatch(setcurrentlyEditting(null));
+            }}
+          >
+            Add New Entry
+          </button>
+          <Link to={`diary/${diary.id}`} style={{ width: "100%" }}>
+            <button className="secondary">View all →</button>
+          </Link>
+        </div>
+      </div>
+    </div>
+  );
 };
 
 export default DiaryTile;

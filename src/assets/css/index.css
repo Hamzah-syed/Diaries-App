@@ -46,3 +46,7 @@ code {
 .AnchorTagStyle {
   text-decoration: none;
 }
+
+.sectionPadding {
+  padding-top: 100px;
+}

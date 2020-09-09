@@ -66,10 +66,83 @@ const Editor: FC = () => {
     updateEditedEntry(entry);
   }, [entry]);
 
-  console.log(entry);
   return (
     <div>
-      <h1 onClick={saveEntry}>hamzah</h1>
+      <div className="editor">
+        <header
+          style={{
+            display: "flex",
+            flexWrap: "wrap",
+            alignItems: "center",
+            marginBottom: "0.2em",
+            paddingBottom: "0.2em",
+            borderBottom: "1px solid rgba(0,0,0,0.1)",
+          }}
+        >
+          {entry && !canEdit ? (
+            <h4>
+              {entry.title}
+              <a
+                href="#edit"
+                onClick={(e) => {
+                  e.preventDefault();
+                  if (entry != null) {
+                    dispatch(setCanEdit(true));
+                  }
+                }}
+                style={{ marginLeft: "0.4em" }}
+              >
+                (Edit)
+              </a>
+            </h4>
+          ) : (
+            <input
+              value={editedEntry?.title ?? ""}
+              disabled={!canEdit}
+              onChange={(e) => {
+                if (editedEntry) {
+                  updateEditedEntry({
+                    ...editedEntry,
+                    title: e.target.value,
+                  });
+                } else {
+                  updateEditedEntry({
+                    title: e.target.value,
+                    content: "",
+                  });
+                }
+              }}
+            />
+          )}
+        </header>
+        {entry && !canEdit ? (
+          <Markdown>{entry.content}</Markdown>
+        ) : (
+          <>
+            <textarea
+              disabled={!canEdit}
+              placeholder="Supports markdown!"
+              value={editedEntry?.content ?? ""}
+              onChange={(e) => {
+                if (editedEntry) {
+                  updateEditedEntry({
+                    ...editedEntry,
+                    content: e.target.value,
+                  });
+                } else {
+                  updateEditedEntry({
+                    title: "",
+                    content: e.target.value,
+                  });
+                }
+              }}
+            />
+            <button onClick={saveEntry} disabled={!canEdit}>
+              Save
+            </button>
+          </>
+        )}
+      </div>
     </div>
   );
 };
