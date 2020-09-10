@@ -16,8 +16,9 @@ export const create = (
       req.requestBody
     ) as Partial<Diary>;
     const exUser: any = schema.users.findBy({ id: userId });
-    if (!exUser) {
-      return handleError(null, "No such user exists.");
+    if (exUser) {
+      // return handleError(null, "No such user exists.");
+      console.log(exUser);
     }
     const now = dayjs().format();
     //createDiary name convention does matter
@@ -25,6 +26,8 @@ export const create = (
       title,
       type,
       description,
+      email: exUser.email,
+      username: exUser.username,
       createdAt: now,
       updatedAt: now,
     });

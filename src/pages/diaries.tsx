@@ -1,4 +1,4 @@
-import React, { FC, useEffect } from "react";
+import React, { FC, useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { rootState } from "../store/rootReducer";
 import http from "../services/api";
@@ -28,6 +28,7 @@ import {
   Radio,
   RadioGroup,
   makeStyles,
+  FormHelperText,
 } from "@material-ui/core";
 //yup and react form for validation
 import * as Yup from "yup";
@@ -71,7 +72,7 @@ const schema = Yup.object().shape({
     100,
     "description length should be less than 100"
   ),
-  shareWith: Yup.string().required("Kindly select any of the following"),
+  type: Yup.string().required("Kindly select any of the following"),
 });
 
 const Diaries: FC = () => {
@@ -148,7 +149,7 @@ const Diaries: FC = () => {
   };
 
   const classes = useStyle();
-  const { handleSubmit, errors, control } = useForm<Diary>({
+  const { handleSubmit, errors, control, reset } = useForm<Diary>({
     resolver: yupResolver(schema),
   });
 
@@ -165,10 +166,9 @@ const Diaries: FC = () => {
     });
     if (diary && user) {
       dispatch(addDiary([diary] as Diary[]));
-
       dispatch(setUser(_user));
     }
-    console.log(data);
+    reset({ title: "", type: data.type });
   };
 
   return (
@@ -262,13 +262,16 @@ const Diaries: FC = () => {
                             />
                           </RadioGroup>
                         }
-                        name="shareWith"
+                        name="type"
                         size="small"
                         variant="outlined"
                         color="secondary"
                         control={control}
                         defaultValue=""
                       />
+                      <FormHelperText error>
+                        {errors.type?.message}
+                      </FormHelperText>
                     </Box>
                     <Box pt={2}>
                       <Button variant="contained" type="submit" color="primary">
@@ -277,7 +280,7 @@ const Diaries: FC = () => {
                     </Box>
                   </form>
                 </Box>
-                <div>
+                <div style={{ width: "100%" }}>
                   <DiariesList diaries={diaries} />
                 </div>
               </Grid>

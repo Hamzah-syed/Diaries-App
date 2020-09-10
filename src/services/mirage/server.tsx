@@ -32,7 +32,7 @@ export const setupServer = (env: string): Server => {
 
     factories: {
       user: Factory.extend({
-        name: "hamzah",
+        username: "hamzah",
         email: "test@abc.com",
         password: "hamzah123",
       }),

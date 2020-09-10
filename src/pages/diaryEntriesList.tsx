@@ -22,7 +22,7 @@ const useStyle = makeStyles((theme) => ({
   },
 }));
 
-const DiaryEntriesList = () => {
+const DiaryEntriesList: FC = () => {
   const { entries } = useSelector((state: rootState) => state);
   const dispatch = useAppDispatch();
   const { id } = useParams();

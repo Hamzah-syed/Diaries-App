@@ -1,4 +1,7 @@
 import React, { FC } from "react";
+//dayjs
+import dayjs from "dayjs";
+
 //mui
 import {
   makeStyles,
@@ -15,6 +18,7 @@ import { Diary } from "../interfaces/diary.interface";
 const mystyle = makeStyles((theme) => ({
   root: {
     width: "100%",
+
     paddingTop: "30px",
   },
   cardParent: {
@@ -24,6 +28,7 @@ const mystyle = makeStyles((theme) => ({
   },
   card: {
     display: "flex",
+    width: "100%",
   },
   diaryUser: {},
   large: {
@@ -44,22 +49,76 @@ interface props {
 }
 
 const DiariesList: FC<props> = ({ diaries }) => {
-  console.log(diaries);
   const classes = mystyle();
   return (
     <div>
       <div>
-        <Grid container>
-          <div className={classes.root}>
-            <Grid item md={6}>
-              <div className={classes.cardParent}>
-                <div className={classes.card}>
-                  <div className={`${classes.diaryUser}`}>
-                    <Avatar className={classes.large}>N</Avatar>
-                  </div>
-                  <div className={`${classes.diaryUser}`}>
-                    <Box pl={3}>
+        <div className={classes.root}>
+          <Grid container spacing={2}>
+            {!!diaries &&
+              diaries.map((diaries: Diary, i: number) => (
+                <Grid item md={6} key={i}>
+                  <div className={classes.cardParent}>
+                    <div className={classes.card}>
+                      <div className={`${classes.diaryUser}`}>
+                        <Avatar className={classes.large}>
+                          {diaries.username.charAt(0)}
+                        </Avatar>
+                      </div>
+                      <div className={`${classes.diaryUser}`}>
+                        <Box pl={3}>
+                          <Box>
+                            <Typography
+                              variant="h5"
+                              className="textBlackSecondary"
+                              style={{
+                                fontWeight: 600,
+                                textTransform: "capitalize",
+                              }}
+                            >
+                              {diaries.username}
+                            </Typography>
+                          </Box>
+                          <Box>
+                            <Typography
+                              variant="subtitle2"
+                              style={{ color: "#B7B7B7" }}
+                            >
+                              {diaries.email}
+                            </Typography>
+                          </Box>
+                          <Box py={1}>
+                            <Button
+                              size="small"
+                              color="primary"
+                              variant="contained"
+                              disableElevation
+                              style={{ fontSize: "10px" }}
+                            >
+                              Follow
+                            </Button>
+                            {/* <Typography
+                        variant="subtitle2"
+                        style={{ color: "#B7B7B7" }}
+                      >
+                        Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                        Corporis quas expedita ex similique optio! Velit et
+                        ducimus debitis iusto, est beatae eius suscipit
+                      </Typography> */}
+                          </Box>
+                        </Box>
+                      </div>
+                    </div>
+                    <div className={classes.divider}></div>
+                    <div>
                       <Box>
+                        <Typography
+                          variant="subtitle2"
+                          color="primary"
+                          style={{ textTransform: "capitalize" }}
+                        >
+                          {diaries.type}
+                        </Typography>
                         <Typography
                           variant="h5"
                           className="textBlackSecondary"
@@ -68,7 +127,7 @@ const DiariesList: FC<props> = ({ diaries }) => {
                             textTransform: "capitalize",
                           }}
                         >
-                          Hamzah Syed
+                          {diaries.title}
                         </Typography>
                       </Box>
                       <Box>
@@ -76,94 +135,45 @@ const DiariesList: FC<props> = ({ diaries }) => {
                           variant="subtitle2"
                           style={{ color: "#B7B7B7" }}
                         >
-                          hamzah@abc.com
+                          CreatedAt:{" "}
+                          {dayjs(diaries.createdAt).format("DD/MM/YYYY")}
+                        </Typography>
+                      </Box>
+                      <Box py={2}>
+                        <Typography
+                          variant="subtitle2"
+                          style={{ color: "#B7B7B7" }}
+                        >
+                          {diaries.description === ""
+                            ? "No Description"
+                            : diaries.description}
                         </Typography>
                       </Box>
                       <Box py={1}>
                         <Button
-                          size="small"
+                          color="secondary"
+                          variant="contained"
+                          disableElevation
+                          style={{ fontSize: "12px", marginRight: "10px" }}
+                        >
+                          Add Note
+                        </Button>
+
+                        <Button
                           color="primary"
                           variant="contained"
                           disableElevation
-                          style={{ fontSize: "10px" }}
+                          style={{ fontSize: "12px" }}
                         >
-                          Follow
+                          All Notes ()
                         </Button>
-                        {/* <Typography
-                        variant="subtitle2"
-                        style={{ color: "#B7B7B7" }}
-                      >
-                        Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                        Corporis quas expedita ex similique optio! Velit et
-                        ducimus debitis iusto, est beatae eius suscipit
-                      </Typography> */}
                       </Box>
-                    </Box>
+                    </div>
                   </div>
-                </div>
-                <div className={classes.divider}></div>
-                <div>
-                  <Box>
-                    <Typography
-                      variant="subtitle2"
-                      color="primary"
-                      style={{ textTransform: "capitalize" }}
-                    >
-                      Public
-                    </Typography>
-                    <Typography
-                      variant="h5"
-                      className="textBlackSecondary"
-                      style={{
-                        fontWeight: 600,
-                        textTransform: "capitalize",
-                      }}
-                    >
-                      Hamzah Syed
-                    </Typography>
-                  </Box>
-                  <Box>
-                    <Typography
-                      variant="subtitle2"
-                      style={{ color: "#B7B7B7" }}
-                    >
-                      CreatedAt:{" "}
-                    </Typography>
-                  </Box>
-                  <Box py={2}>
-                    <Typography
-                      variant="subtitle2"
-                      style={{ color: "#B7B7B7" }}
-                    >
-                      Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                      Corporis quas expedita ex similique optio! Velit et
-                      ducimus debitis iusto, est beatae eius suscipit
-                    </Typography>
-                  </Box>
-                  <Box py={1}>
-                    <Button
-                      color="secondary"
-                      variant="contained"
-                      disableElevation
-                      style={{ fontSize: "12px", marginRight: "10px" }}
-                    >
-                      Add Note
-                    </Button>
-
-                    <Button
-                      color="primary"
-                      variant="contained"
-                      disableElevation
-                      style={{ fontSize: "12px" }}
-                    >
-                      All Notes ()
-                    </Button>
-                  </Box>
-                </div>
-              </div>
-            </Grid>
-          </div>
-        </Grid>
+                </Grid>
+              ))}
+          </Grid>
+        </div>
       </div>
     </div>
   );
