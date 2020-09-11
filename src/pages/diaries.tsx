@@ -304,7 +304,7 @@ const Diaries: FC = () => {
                   ) : (
                     <Routes>
                       <Route path="/">
-                        <DiaryEdit DiaryId={DiaryId} />
+                        <DiaryEdit DiaryId={DiaryId} EditDiary={Singlediary} />
                       </Route>
                     </Routes>
                   )}
