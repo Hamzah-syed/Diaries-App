@@ -1,4 +1,4 @@
-import React, { FC, useEffect, useState } from "react";
+import React, { FC, useEffect, useState, useRef } from "react";
 import { useSelector } from "react-redux";
 import { rootState } from "../store/rootReducer";
 import http from "../services/api";
@@ -10,11 +10,14 @@ import DiaryTile from "./diaryTile";
 import { User } from "../interfaces/user.interface";
 import { Route, Routes } from "react-router-dom";
 import DiaryEntriesList from "./diaryEntriesList";
+import { showAlert } from "../util";
+import { updateDiary } from "../features/diary/diariesSlice";
 import { useAppDispatch } from "../store";
 import dayjs from "dayjs";
 import { setAuthState } from "../features/auth/authSlice";
 //components
-import DiariesList from "./diariesList";
+import DiariesList from "../components/diaries/diariesList";
+import DiaryEdit from "../components/diaries/diaryEdit";
 
 //mui
 import {
@@ -34,6 +37,7 @@ import {
 import * as Yup from "yup";
 import { useForm, Controller } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers";
+import { title } from "process";
 
 const useStyle = makeStyles((theme) => ({
   root: {
@@ -76,9 +80,17 @@ const schema = Yup.object().shape({
 });
 
 const Diaries: FC = () => {
+  const classes = useStyle();
   const dispatch = useAppDispatch();
+
+  //state for editing diary
+  const [DiaryId, setDiaryId] = useState<string | undefined>("");
+  const [isEditing, setIsEditing] = useState<boolean>(false);
+
   const diaries = useSelector((state: rootState) => state.diaries);
   const user = useSelector((state: rootState) => state.user);
+
+  //only diary which need to edit or delete
 
   useEffect(() => {
     const fetchDiaries = async () => {
@@ -94,7 +106,11 @@ const Diaries: FC = () => {
       }
     };
     fetchDiaries();
-  }, [dispatch, user]);
+  }, [dispatch, user, setDiaryId]);
+
+  const Singlediary: Diary | undefined = diaries.find(
+    (diary) => diary.id === DiaryId
+  );
 
   const createDiary = async () => {
     const result: any = await Swal.mixin({
@@ -148,25 +164,42 @@ const Diaries: FC = () => {
     }
   };
 
-  const classes = useStyle();
   const { handleSubmit, errors, control, reset } = useForm<Diary>({
     resolver: yupResolver(schema),
   });
 
   //form submit funtion
   const formSubmit = async (data: Partial<Diary>) => {
-    const { diary, user: _user } = await http.post<
-      Partial<Diary>,
-      { diary: Diary; user: User }
-    >("/diaries/", {
-      title: data.title,
-      type: data.type,
-      description: data.description,
-      userId: user?.id,
-    });
-    if (diary && user) {
-      dispatch(addDiary([diary] as Diary[]));
-      dispatch(setUser(_user));
+    if (!isEditing) {
+      const { diary, user: _user } = await http.post<
+        Partial<Diary>,
+        { diary: Diary; user: User }
+      >("/diaries/", {
+        title: data.title,
+        type: data.type,
+        description: data.description,
+        userId: user?.id,
+      });
+      if (diary && user) {
+        dispatch(addDiary([diary] as Diary[]));
+        dispatch(setUser(_user));
+      }
+    } else if (isEditing) {
+      console.log(data);
+      const path = `/diaries/${DiaryId}`;
+      http
+        .put<Diary, Diary>(path, Singlediary)
+        .then((diary) => {
+          if (diary) {
+            dispatch(updateDiary(diary));
+            showAlert("Saved!", "success");
+          }
+        })
+        .finally(() => {
+          setIsEditing(false);
+        });
+      setIsEditing(false);
+      setDiaryId("");
     }
     reset({ title: "", type: data.type });
   };
@@ -179,109 +212,109 @@ const Diaries: FC = () => {
             <Grid container>
               <Grid item md={8} container>
                 <Box py={5} px={4} className={classes.addDiary}>
-                  <form onSubmit={handleSubmit(formSubmit)}>
-                    <Box py={1}>
-                      <Controller
-                        as={<TextField />}
-                        name="title"
-                        fullWidth
-                        label="Diary Title"
-                        size="small"
-                        color="secondary"
-                        variant="outlined"
-                        control={control}
-                        style={{ background: "white" }}
-                        helperText={errors.title?.message}
-                        error={errors && errors.title && true}
-                        defaultValue=""
-                      />
-                    </Box>
-                    <Box py={1}>
-                      <Controller
-                        as={<TextField />}
-                        name="description"
-                        label="Description (Optional)"
-                        fullWidth
-                        multiline
-                        rows={4}
-                        variant="outlined"
-                        color="secondary"
-                        style={{ background: "white" }}
-                        control={control}
-                        helperText={errors.description?.message}
-                        error={errors && errors.description && true}
-                        defaultValue=""
-                      />
-                    </Box>
-                    <Box py={1}>
-                      {/* <Controller
-                      as={
-                        <Select native >
-                          <option aria-label="None" value="Share With" />
-                          <option value={10}>Ten</option>
-                          <option value={20}>Twenty</option>
-                          <option value={30}>Thirty</option>
-                        </Select>
-                      }
-                      name="shareWith"
-                      size="small"
-                      variant="outlined"
-                      color="secondary"
-                      style={{ background: "white", width: "50%" }}
-                      control={control}
-                      defaultValue=""
-                    /> */}
-                      <Controller
-                        as={
-                          <RadioGroup
-                            row
-                            aria-label="gender"
-                            name="shareWith"
+                  {DiaryId === "" ? (
+                    <form onSubmit={handleSubmit(formSubmit)}>
+                      <Box py={1}>
+                        <Controller
+                          as={<TextField value="hamzah" />}
+                          name="title"
+                          fullWidth
+                          label="Diary Title"
+                          size="small"
+                          color="secondary"
+                          variant="outlined"
+                          control={control}
+                          style={{ background: "white" }}
+                          helperText={errors.title?.message}
+                          error={errors && errors.title && true}
+                          defaultValue=""
+                        />{" "}
+                      </Box>
 
-                            // value={value}
-                            // onChange={handleChange}
-                          >
-                            <span>
+                      <Box py={1}>
+                        <Controller
+                          as={<TextField />}
+                          name="description"
+                          label="Description (Optional)"
+                          fullWidth
+                          multiline
+                          rows={4}
+                          variant="outlined"
+                          color="secondary"
+                          style={{ background: "white" }}
+                          control={control}
+                          helperText={errors.description?.message}
+                          error={errors && errors.description && true}
+                          defaultValue=""
+                        />
+                      </Box>
+                      <Box py={1}>
+                        <Controller
+                          as={
+                            <RadioGroup
+                              row
+                              aria-label="gender"
+                              name="shareWith"
+
+                              // value={value}
+                              // onChange={handleChange}
+                            >
+                              <span>
+                                <FormControlLabel
+                                  value="public"
+                                  control={<Radio />}
+                                  label="Public"
+                                />
+                              </span>
+                              <span>
+                                <FormControlLabel
+                                  value="private"
+                                  control={<Radio />}
+                                  label="Private"
+                                />
+                              </span>
                               <FormControlLabel
-                                value="public"
+                                value="followers"
                                 control={<Radio />}
-                                label="Public"
+                                label="Followers"
                               />
-                            </span>
-                            <span>
-                              <FormControlLabel
-                                value="private"
-                                control={<Radio />}
-                                label="Private"
-                              />
-                            </span>
-                            <FormControlLabel
-                              value="followers"
-                              control={<Radio />}
-                              label="Followers"
-                            />
-                          </RadioGroup>
-                        }
-                        name="type"
-                        size="small"
-                        variant="outlined"
-                        color="secondary"
-                        control={control}
-                        defaultValue=""
-                      />
-                      <FormHelperText error>
-                        {errors.type?.message}
-                      </FormHelperText>
-                    </Box>
-                    <Box pt={2}>
-                      <Button variant="contained" type="submit" color="primary">
-                        Add
-                      </Button>
-                    </Box>
-                  </form>
+                            </RadioGroup>
+                          }
+                          name="type"
+                          size="small"
+                          variant="outlined"
+                          color="secondary"
+                          control={control}
+                          defaultValue=""
+                        />
+                        <FormHelperText error>
+                          {errors.type?.message}
+                        </FormHelperText>
+                      </Box>
+                      <Box pt={2}>
+                        <Button
+                          variant="contained"
+                          type="submit"
+                          color="primary"
+                        >
+                          Add
+                        </Button>
+                      </Box>
+                    </form>
+                  ) : (
+                    <Routes>
+                      <Route path="/">
+                        <DiaryEdit DiaryId={DiaryId} />
+                      </Route>
+                    </Routes>
+                  )}
                 </Box>
                 <div style={{ width: "100%" }}>
-                  <DiariesList diaries={diaries} />
+                  <DiariesList
+                    diaries={diaries}
+                    setDiaryId={setDiaryId}
+                    setIsEditing={setIsEditing}
+                  />
                 </div>
               </Grid>
               <Grid item md={4} container></Grid>

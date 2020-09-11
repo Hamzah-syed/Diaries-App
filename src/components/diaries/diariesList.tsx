@@ -1,6 +1,8 @@
 import React, { FC } from "react";
 //dayjs
 import dayjs from "dayjs";
+//useDispatch for updating diaries
+import { useAppDispatch } from "../../store";
 
 //mui
 import {
@@ -11,9 +13,9 @@ import {
   Typography,
   Button,
 } from "@material-ui/core";
-import { User } from "../interfaces/user.interface";
-import { Diary } from "../interfaces/diary.interface";
 //interfaces
+import { Diary } from "../../interfaces/diary.interface";
+import { updateDiary } from "../../features/diary/diariesSlice";
 
 const mystyle = makeStyles((theme) => ({
   root: {
@@ -44,19 +46,29 @@ const mystyle = makeStyles((theme) => ({
   },
 }));
 
+//props interface
 interface props {
   diaries: Diary[];
+  setDiaryId: React.Dispatch<React.SetStateAction<string | undefined>>;
+  setIsEditing: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-const DiariesList: FC<props> = ({ diaries }) => {
+const DiariesList: FC<props> = ({ diaries, setDiaryId, setIsEditing }) => {
   const classes = mystyle();
+  //sorting diaries data according to updatedDate
+  const sortedByUpdatedAt = diaries.slice().sort((a, b) => {
+    return dayjs(b.updatedAt).isAfter(dayjs(a.updatedAt)) ? 1 : -1;
+  });
+  //for updating diary
+  const dispatch = useAppDispatch();
+
   return (
     <div>
       <div>
         <div className={classes.root}>
           <Grid container spacing={2}>
-            {!!diaries &&
-              diaries.map((diaries: Diary, i: number) => (
+            {!!sortedByUpdatedAt &&
+              sortedByUpdatedAt.map((diaries: Diary, i: number) => (
                 <Grid item md={6} key={i}>
                   <div className={classes.cardParent}>
                     <div className={classes.card}>
@@ -166,6 +178,18 @@ const DiariesList: FC<props> = ({ diaries }) => {
                           style={{ fontSize: "12px" }}
                         >
                           All Notes ()
+                        </Button>
+                        <Button
+                          color="primary"
+                          variant="contained"
+                          disableElevation
+                          onClick={() => {
+                            setDiaryId(diaries.id);
+                            setIsEditing(true);
+                          }}
+                          style={{ fontSize: "12px" }}
+                        >
+                          edit
                         </Button>
                       </Box>
                     </div>

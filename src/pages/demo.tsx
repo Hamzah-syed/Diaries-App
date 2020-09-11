@@ -17,7 +17,8 @@ import * as Yup from "yup";
 import { useForm, Controller } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers";
 import { Diary } from "../interfaces/diary.interface";
-import DiariesList from "./diariesList";
+import DiariesList from "../components/diaries/diariesList";
+import DiariesEditModel from "../components/diaries/diariesEditModel";
 
 const useStyle = makeStyles((theme) => ({
   root: {
@@ -101,6 +102,7 @@ const Demo = () => {
                       label="Description (Optional)"
                       fullWidth
                       multiline
+                      value="haz"
                       rows={4}
                       variant="outlined"
                       color="secondary"
@@ -108,7 +110,7 @@ const Demo = () => {
                       control={control}
                       helperText={errors.description?.message}
                       error={errors && errors.description && true}
-                      defaultValue=""
+                      defaultValue="hamzah"
                     />
                   </Box>
                   <Box py={1}>
@@ -177,6 +179,7 @@ const Demo = () => {
               </Box>
               <div style={{ width: "100%", paddingTop: "30px" }}>
                 {/* <DiariesList /> */}
+                <DiariesEditModel />
               </div>
             </Grid>
             <Grid item md={4} container></Grid>

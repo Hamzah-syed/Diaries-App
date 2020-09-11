@@ -15,10 +15,9 @@ export const create = (
     const { title, description, type, userId } = JSON.parse(
       req.requestBody
     ) as Partial<Diary>;
-    const exUser: any = schema.users.findBy({ id: userId });
-    if (exUser) {
-      // return handleError(null, "No such user exists.");
-      console.log(exUser);
+    const exUser = schema.users.findBy({ id: userId });
+    if (!exUser) {
+      return handleError(null, "No such user exists.");
     }
     const now = dayjs().format();
     //createDiary name convention does matter
@@ -44,16 +43,13 @@ export const create = (
 
 export const updateDiary = (schema: any, req: Request): Diary | Response => {
   try {
-    const diary = schema.diaries.findBy(req.params.id);
+    const diary = schema.diaries.find(req.params.id);
     const data = JSON.parse(req.requestBody) as Partial<Diary>;
-
     const now = dayjs().format();
-
     diary.update({
       ...data,
       updatedAt: now,
     });
-
     return diary.attrs as Diary;
   } catch (error) {
     return handleError(error, "Failed to update Diary.");
