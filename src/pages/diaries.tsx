@@ -1,4 +1,4 @@
-import React, { FC, useEffect, useState, useRef } from "react";
+import React, { FC, useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { rootState } from "../store/rootReducer";
 import http from "../services/api";
@@ -9,7 +9,7 @@ import { setUser } from "../features/auth/userSlice";
 import DiaryTile from "./diaryTile";
 import { User } from "../interfaces/user.interface";
 import { Route, Routes } from "react-router-dom";
-import DiaryEntriesList from "./diaryEntriesList";
+
 import { showAlert } from "../util";
 import { updateDiary } from "../features/diary/diariesSlice";
 import { useAppDispatch } from "../store";
@@ -25,7 +25,6 @@ import {
   Box,
   Grid,
   Button,
-  Typography,
   TextField,
   FormControlLabel,
   Radio,
@@ -37,7 +36,6 @@ import {
 import * as Yup from "yup";
 import { useForm, Controller } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers";
-import { title } from "process";
 
 const useStyle = makeStyles((theme) => ({
   root: {
@@ -185,10 +183,9 @@ const Diaries: FC = () => {
         dispatch(setUser(_user));
       }
     } else if (isEditing) {
-      console.log(data);
       const path = `/diaries/${DiaryId}`;
       http
-        .put<Diary, Diary>(path, Singlediary)
+        .put<Diary, Diary>(path, data)
         .then((diary) => {
           if (diary) {
             dispatch(updateDiary(diary));
@@ -303,9 +300,17 @@ const Diaries: FC = () => {
                     </form>
                   ) : (
                     <Routes>
-                      <Route path="/">
-                        <DiaryEdit DiaryId={DiaryId} EditDiary={Singlediary} />
-                      </Route>
+                      <Route
+                        path="/"
+                        element={
+                          <DiaryEdit
+                            DiaryId={DiaryId}
+                            EditDiary={Singlediary}
+                            setIsEditing={setIsEditing}
+                            setDiaryId={setDiaryId}
+                          />
+                        }
+                      ></Route>
                     </Routes>
                   )}
                 </Box>

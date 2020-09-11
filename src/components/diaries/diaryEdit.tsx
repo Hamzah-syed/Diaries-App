@@ -2,14 +2,13 @@ import React, { FC } from "react";
 //Yup
 import * as Yup from "yup";
 import { yupResolver } from "@hookform/resolvers";
+//api
+import http from "../../services/api";
 //mui
 import {
   makeStyles,
-  Container,
   Box,
-  Grid,
   Button,
-  Typography,
   TextField,
   FormControlLabel,
   Radio,
@@ -20,8 +19,11 @@ import {
 import { useAppDispatch } from "../../store";
 // reack-hook-form
 import { useForm, Controller } from "react-hook-form";
+import { updateDiary } from "../../features/diary/diariesSlice";
 // interfaces
 import { Diary } from "../../interfaces/diary.interface";
+//sweetAlert
+import { showAlert } from "../../util";
 
 const useStyle = makeStyles((theme) => ({
   root: {
@@ -67,9 +69,17 @@ const schema = Yup.object().shape({
 interface props {
   DiaryId: string | undefined;
   EditDiary: Diary | undefined;
+  setDiaryId: React.Dispatch<React.SetStateAction<string | undefined>>;
+  setIsEditing: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-const DiaryEdit: FC<props> = ({ DiaryId, EditDiary }) => {
+const DiaryEdit: FC<props> = ({
+  DiaryId,
+  EditDiary,
+  setDiaryId,
+  setIsEditing,
+}) => {
+  const classes = useStyle();
   const dispatch = useAppDispatch();
 
   const { handleSubmit, errors, control, reset } = useForm<Diary>({
@@ -80,7 +90,7 @@ const DiaryEdit: FC<props> = ({ DiaryId, EditDiary }) => {
   const formSubmit = async (data: Partial<Diary>) => {
     const path = `/diaries/${DiaryId}`;
     http
-      .put<Diary, Diary>(path, Singlediary)
+      .put<Diary, Diary>(path, data)
       .then((diary) => {
         if (diary) {
           dispatch(updateDiary(diary));
@@ -92,16 +102,16 @@ const DiaryEdit: FC<props> = ({ DiaryId, EditDiary }) => {
       });
     setIsEditing(false);
     setDiaryId("");
+    reset({ title: "", type: data.type });
   };
-  reset({ title: "", type: data.type });
 
   return (
     <div>
-      <form onSubmit={handleSubmit(formSubmit)}>
+      <form onSubmit={handleSubmit(formSubmit)} id="editForm">
         <Box py={1}>
           <Controller
             as={<TextField value="hamzah" />}
-            name="titl"
+            name="title"
             fullWidth
             label="Diary "
             size="small"
@@ -111,14 +121,14 @@ const DiaryEdit: FC<props> = ({ DiaryId, EditDiary }) => {
             style={{ background: "white" }}
             helperText={errors.title?.message}
             error={errors && errors.title && true}
-            defaultValue={!!Singlediary && Singlediary.title}
+            defaultValue={!!EditDiary && EditDiary.title}
           />{" "}
         </Box>
 
         <Box py={1}>
           <Controller
             as={<TextField />}
-            name="descriptio"
+            name="description"
             label="Description (Optional)"
             fullWidth
             multiline
@@ -129,7 +139,7 @@ const DiaryEdit: FC<props> = ({ DiaryId, EditDiary }) => {
             control={control}
             helperText={errors.description?.message}
             error={errors && errors.description && true}
-            defaultValue={!!Singlediary && Singlediary.description}
+            defaultValue={!!EditDiary && EditDiary.description}
           />
         </Box>
         <Box py={1}>
@@ -138,13 +148,13 @@ const DiaryEdit: FC<props> = ({ DiaryId, EditDiary }) => {
               <RadioGroup
                 row
                 aria-label="gender"
-                name="shareWit"
-
-                // value={value}
+                // value={EditDiary?.type}
                 // onChange={handleChange}
               >
                 <span>
                   <FormControlLabel
+                    // checked={EditDiary?.type === "public" ? true : false}
+
                     value="public"
                     control={<Radio />}
                     label="Public"
@@ -152,6 +162,8 @@ const DiaryEdit: FC<props> = ({ DiaryId, EditDiary }) => {
                 </span>
                 <span>
                   <FormControlLabel
+                    // checked={EditDiary?.type === "private" ? true : undefined}
+                    spellCheck
                     value="private"
                     control={<Radio />}
                     label="Private"
@@ -159,6 +171,9 @@ const DiaryEdit: FC<props> = ({ DiaryId, EditDiary }) => {
                 </span>
                 <FormControlLabel
                   value="followers"
+                  //   defaultChecked={
+                  //     // EditDiary?.type === "followers" ? true : false
+                  //   }
                   control={<Radio />}
                   label="Followers"
                 />
@@ -175,7 +190,7 @@ const DiaryEdit: FC<props> = ({ DiaryId, EditDiary }) => {
         </Box>
         <Box pt={2}>
           <Button variant="contained" type="submit" color="primary">
-            Add
+            Update
           </Button>
         </Box>
       </form>

@@ -15,7 +15,6 @@ import {
 } from "@material-ui/core";
 //interfaces
 import { Diary } from "../../interfaces/diary.interface";
-import { updateDiary } from "../../features/diary/diariesSlice";
 
 const mystyle = makeStyles((theme) => ({
   root: {
@@ -189,7 +188,12 @@ const DiariesList: FC<props> = ({ diaries, setDiaryId, setIsEditing }) => {
                           }}
                           style={{ fontSize: "12px" }}
                         >
-                          edit
+                          <a
+                            style={{ textDecoration: "none", color: "white" }}
+                            href="#editForm"
+                          >
+                            edit
+                          </a>
                         </Button>
                       </Box>
                     </div>
