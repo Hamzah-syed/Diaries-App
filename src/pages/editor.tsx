@@ -42,10 +42,10 @@ const Editor: FC = () => {
     if (entry === null) {
       const path = `/diaries/entry/${activeDiaryId}`;
       http
-        .post<{ diary: Diary; entry: Entry }>(path, editedEntry)
+        .post<Entry, { diary: Diary; entry: Entry }>(path, editedEntry)
         .then((data) => {
           if (data != null) {
-            const { diary, entry: _entry } = data.data;
+            const { diary, entry: _entry } = data;
             dispatch(setcurrentlyEditting(_entry));
             dispatch(updateDiary(diary));
           }

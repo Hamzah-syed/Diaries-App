@@ -8,9 +8,9 @@ const Home = () => {
       <div className="left">
         <Diaries />
       </div>
-      <div className="right">
+      {/* <div className="right">
         <Editor />
-      </div>
+      </div> */}
     </div>
   );
 };

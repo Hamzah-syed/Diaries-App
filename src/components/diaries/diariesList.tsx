@@ -1,8 +1,11 @@
 import React, { FC } from "react";
+import { useSelector } from "react-redux";
 //dayjs
 import dayjs from "dayjs";
 //useDispatch for updating diaries
 import { useAppDispatch } from "../../store";
+//ReactROuter
+import { Link } from "react-router-dom";
 
 //mui
 import {
@@ -15,6 +18,8 @@ import {
 } from "@material-ui/core";
 //interfaces
 import { Diary } from "../../interfaces/diary.interface";
+//root reducer Type
+import { rootState } from "../../store/rootReducer";
 
 const mystyle = makeStyles((theme) => ({
   root: {
@@ -50,29 +55,39 @@ interface props {
   diaries: Diary[];
   setDiaryId: React.Dispatch<React.SetStateAction<string | undefined>>;
   setIsEditing: React.Dispatch<React.SetStateAction<boolean>>;
+  IsEditing: boolean;
 }
 
-const DiariesList: FC<props> = ({ diaries, setDiaryId, setIsEditing }) => {
+const DiariesList: FC<props> = ({
+  diaries,
+  setDiaryId,
+  setIsEditing,
+  IsEditing,
+}) => {
   const classes = mystyle();
   //sorting diaries data according to updatedDate
   const sortedByUpdatedAt = diaries.slice().sort((a, b) => {
     return dayjs(b.updatedAt).isAfter(dayjs(a.updatedAt)) ? 1 : -1;
   });
-  //for updating diary
-  const dispatch = useAppDispatch();
+
+  //User stored in redux
+  const user = useSelector((state: rootState) => state.user);
 
   return (
     <div>
       <div>
         <div className={classes.root}>
-          <Grid container spacing={2}>
+          <Grid container style={{ width: "100%", margin: 0 }} spacing={2}>
             {!!sortedByUpdatedAt &&
               sortedByUpdatedAt.map((diaries: Diary, i: number) => (
-                <Grid item md={6} key={i}>
+                <Grid item md={6} xs={12} key={i}>
                   <div className={classes.cardParent}>
                     <div className={classes.card}>
                       <div className={`${classes.diaryUser}`}>
-                        <Avatar className={classes.large}>
+                        <Avatar
+                          className={classes.large}
+                          style={{ textTransform: "uppercase" }}
+                        >
                           {diaries.username.charAt(0)}
                         </Avatar>
                       </div>
@@ -169,32 +184,45 @@ const DiariesList: FC<props> = ({ diaries, setDiaryId, setIsEditing }) => {
                         >
                           Add Note
                         </Button>
-
-                        <Button
-                          color="primary"
-                          variant="contained"
-                          disableElevation
-                          style={{ fontSize: "12px" }}
+                        <Link
+                          style={{ textDecoration: "none" }}
+                          to={`diary/${diaries.id}`}
                         >
-                          All Notes ()
-                        </Button>
-                        <Button
-                          color="primary"
-                          variant="contained"
-                          disableElevation
-                          onClick={() => {
-                            setDiaryId(diaries.id);
-                            setIsEditing(true);
-                          }}
-                          style={{ fontSize: "12px" }}
-                        >
-                          <a
-                            style={{ textDecoration: "none", color: "white" }}
-                            href="#editForm"
+                          <Button
+                            color="primary"
+                            variant="contained"
+                            disableElevation
+                            style={{ fontSize: "12px" }}
                           >
-                            edit
-                          </a>
-                        </Button>
+                            Notes (
+                            {!!diaries.entryIds && diaries.entryIds.length
+                              ? diaries.entryIds?.length
+                              : 0}
+                            )
+                          </Button>
+                        </Link>
+
+                        {user?.id === diaries.userId && !IsEditing ? (
+                          <Button
+                            color="primary"
+                            variant="contained"
+                            disableElevation
+                            onClick={() => {
+                              setDiaryId(diaries.id);
+                              setIsEditing(true);
+                            }}
+                            style={{ fontSize: "12px" }}
+                          >
+                            <a
+                              style={{ textDecoration: "none", color: "white" }}
+                              href="#editForm"
+                            >
+                              edit
+                            </a>
+                          </Button>
+                        ) : (
+                          ""
+                        )}
                       </Box>
                     </div>
                   </div>

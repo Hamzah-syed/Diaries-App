@@ -29,7 +29,6 @@ const useStyle = makeStyles((theme) => ({
   root: {
     background: "#fff",
     width: "100%",
-    padding: "20px",
   },
   addDiary: {
     width: "100%",

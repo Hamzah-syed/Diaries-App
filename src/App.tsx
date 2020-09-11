@@ -14,6 +14,7 @@ const Login = lazy(() => import("./pages/index"));
 const SignUp = lazy(() => import("./pages/signUp"));
 const Home = lazy(() => import("./pages/home"));
 const Editor = lazy(() => import("./pages/editor"));
+const Entries = lazy(() => import("./pages/entries"));
 const Demo = lazy(() => import("./pages/demo"));
 
 const App: FC = () => {
@@ -29,6 +30,7 @@ const App: FC = () => {
               {isLoggedIn ? (
                 <>
                   <Route path="/" element={<Home />}></Route>
+                  <Route path="/diary/:id" element={<Entries />}></Route>
                   <Route path="/editor" element={<Editor />}></Route>
                 </>
               ) : (

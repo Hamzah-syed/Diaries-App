@@ -23,7 +23,7 @@ const useStyle = makeStyles((theme) => ({
   root: {
     background: "#fff",
     width: "100%",
-    padding: "20px",
+    // padding: "20px",
   },
   addDiary: {
     width: "100%",
@@ -52,10 +52,9 @@ const schema = Yup.object().shape({
   title: Yup.string()
     .required("Title is required")
     .max(50, "Title length should be less than 50"),
-  description: Yup.string().max(
-    255,
-    "description length should be less than 255"
-  ),
+  description: Yup.string()
+    .max(1000, "description length should be less than 1000")
+    .required("Description is required"),
   shareWith: Yup.string().required("Kindly select any of the following"),
 });
 
@@ -77,13 +76,22 @@ const Demo = () => {
           <Grid container>
             <Grid item md={8} container>
               <Box py={5} px={4} className={classes.addDiary}>
+                <Box pb={2}>
+                  <Typography
+                    variant="h5"
+                    className="textBlackSecondary"
+                    style={{ fontWeight: 600 }}
+                  >
+                    Add Entry
+                  </Typography>
+                </Box>
                 <form onSubmit={handleSubmit(formSubmit)}>
                   <Box py={1}>
                     <Controller
                       as={<TextField />}
                       name="title"
                       fullWidth
-                      label="Title"
+                      label="Entry Title"
                       size="small"
                       color="secondary"
                       variant="outlined"
@@ -98,76 +106,21 @@ const Demo = () => {
                     <Controller
                       as={<TextField />}
                       name="description"
-                      label="Description (Optional)"
+                      label="Description "
                       fullWidth
                       multiline
                       value="haz"
                       rows={4}
                       variant="outlined"
                       color="secondary"
+                      defaultValue=""
                       style={{ background: "white" }}
                       control={control}
                       helperText={errors.description?.message}
                       error={errors && errors.description && true}
                     />
                   </Box>
-                  <Box py={1}>
-                    {/* <Controller
-                      as={
-                        <Select native >
-                          <option aria-label="None" value="Share With" />
-                          <option value={10}>Ten</option>
-                          <option value={20}>Twenty</option>
-                          <option value={30}>Thirty</option>
-                        </Select>
-                      }
-                      name="shareWith"
-                      size="small"
-                      variant="outlined"
-                      color="secondary"
-                      style={{ background: "white", width: "50%" }}
-                      control={control}
-                      defaultValue=""
-                    /> */}
-                    <Controller
-                      as={
-                        <RadioGroup
-                          row
-                          aria-label="gender"
-                          name="shareWith"
 
-                          // value={value}
-                          // onChange={handleChange}
-                        >
-                          <span>
-                            <FormControlLabel
-                              value="public"
-                              control={<Radio />}
-                              label="Public"
-                            />
-                          </span>
-                          <span>
-                            <FormControlLabel
-                              value="private"
-                              control={<Radio />}
-                              label="Private"
-                            />
-                          </span>
-                          <FormControlLabel
-                            value="followers"
-                            control={<Radio />}
-                            label="Followers"
-                          />
-                        </RadioGroup>
-                      }
-                      name="shareWith"
-                      size="small"
-                      variant="outlined"
-                      color="secondary"
-                      control={control}
-                      defaultValue=""
-                    />
-                  </Box>
                   <Box pt={2}>
                     <Button variant="contained" type="submit" color="primary">
                       Add

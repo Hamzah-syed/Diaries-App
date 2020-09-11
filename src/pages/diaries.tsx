@@ -41,12 +41,13 @@ const useStyle = makeStyles((theme) => ({
   root: {
     background: "#fff",
     width: "100%",
-    padding: "20px",
+    // padding: "20px",
   },
   addDiary: {
     width: "100%",
     background: "#F9F9F9",
     borderRadius: "7px",
+    padding: "30px 30px",
   },
   textFeild: {
     width: "100%",
@@ -207,8 +208,8 @@ const Diaries: FC = () => {
         <Container>
           <div className={classes.root}>
             <Grid container>
-              <Grid item md={8} container>
-                <Box py={5} px={4} className={classes.addDiary}>
+              <Grid item sm={8} style={{ width: "100%" }}>
+                <Grid item className={classes.addDiary}>
                   {DiaryId === "" ? (
                     <form onSubmit={handleSubmit(formSubmit)}>
                       <Box py={1}>
@@ -313,16 +314,17 @@ const Diaries: FC = () => {
                       ></Route>
                     </Routes>
                   )}
-                </Box>
+                </Grid>
                 <div style={{ width: "100%" }}>
                   <DiariesList
                     diaries={diaries}
                     setDiaryId={setDiaryId}
                     setIsEditing={setIsEditing}
+                    IsEditing={isEditing}
                   />
                 </div>
               </Grid>
-              <Grid item md={4} container></Grid>
+              <Grid item sm={4} container></Grid>
             </Grid>
           </div>
         </Container>
@@ -336,10 +338,10 @@ const Diaries: FC = () => {
       {/* {/* {diaries.map((diaries) => (
             <h1>{diaries.title}</h1>
         ))} */}
-      <Button onClick={createDiary}>Create New</Button>
+      {/* <Button onClick={createDiary}>Create New</Button>
       {diaries.map((diary, idx) => (
         <DiaryTile key={idx} diary={diary} />
-      ))}
+      ))} */}
       {/* <Route path="/">
       </Route> */}
       {/* </Routes> */}
