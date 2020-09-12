@@ -93,7 +93,7 @@ const DiaryEdit: FC<props> = ({
       .then((diary) => {
         if (diary) {
           dispatch(updateDiary(diary));
-          showAlert("Saved!", "success");
+          showAlert("Diary updated successfully!", "success");
         }
       })
       .finally(() => {
@@ -101,7 +101,7 @@ const DiaryEdit: FC<props> = ({
       });
     setIsEditing(false);
     setDiaryId("");
-    reset({ title: "", type: data.type });
+    reset({ title: "", description: "", type: data.type });
   };
 
   return (
@@ -168,14 +168,6 @@ const DiaryEdit: FC<props> = ({
                     label="Private"
                   />
                 </span>
-                <FormControlLabel
-                  value="followers"
-                  //   defaultChecked={
-                  //     // EditDiary?.type === "followers" ? true : false
-                  //   }
-                  control={<Radio />}
-                  label="Followers"
-                />
               </RadioGroup>
             }
             name="type"

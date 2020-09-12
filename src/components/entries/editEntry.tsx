@@ -87,7 +87,7 @@ const EntryEdit: FC<props> = ({ setIsEditing }) => {
       })
       .finally(() => {
         setIsEditing(false);
-        reset();
+        reset({ title: "", content: "" });
       });
   };
 
@@ -103,7 +103,7 @@ const EntryEdit: FC<props> = ({ setIsEditing }) => {
             Edit Entry
           </Typography>
         </Box>
-        <button onClick={() => setIsEditing(false)}>Edit</button>
+
         <form onSubmit={handleSubmit(formSubmit)} id="editForm">
           <Box py={1}>
             <Controller

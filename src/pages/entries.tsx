@@ -21,31 +21,36 @@ const Entries = () => {
 
   const [isEditing, setIsEditing] = useState<boolean>(false);
   return (
-    <div className="sectionPadding">
-      <Container>
-        <div className={classes.root}>
-          <Grid container>
-            <Grid item sm={8} xs={12} container>
-              <Grid direction="column" container item sm={12}>
-                {!isEditing ? (
-                  <AddEntries />
-                ) : (
-                  <Routes>
-                    <Route
-                      path="/"
-                      element={<EntryEdit setIsEditing={setIsEditing} />}
-                    ></Route>
-                  </Routes>
-                )}
-                <EntriesList setIsEditing={setIsEditing} />
+    <div>
+      <div className="sectionPadding">
+        <Container>
+          <div className={classes.root}>
+            <Grid container>
+              <Grid item sm={8} xs={12} container>
+                <Grid direction="column" container item sm={12}>
+                  {!isEditing ? (
+                    <AddEntries />
+                  ) : (
+                    <Routes>
+                      <Route
+                        path="/"
+                        element={<EntryEdit setIsEditing={setIsEditing} />}
+                      ></Route>
+                    </Routes>
+                  )}
+                  <EntriesList
+                    setIsEditing={setIsEditing}
+                    IsEditing={isEditing}
+                  />
+                </Grid>
+              </Grid>
+              <Grid item sm={4} container>
+                <Hidden xsDown>hamzah</Hidden>
               </Grid>
             </Grid>
-            <Grid item sm={4} container>
-              <Hidden xsDown>hamzah</Hidden>
-            </Grid>
-          </Grid>
-        </div>
-      </Container>
+          </div>
+        </Container>
+      </div>
     </div>
   );
 };

@@ -65,9 +65,10 @@ const mystyle = makeStyles((theme) => ({
 //interface
 interface props {
   setIsEditing: React.Dispatch<React.SetStateAction<boolean>>;
+  IsEditing: Boolean;
 }
 
-const EntriesList: FC<props> = ({ setIsEditing }) => {
+const EntriesList: FC<props> = ({ setIsEditing, IsEditing }) => {
   const classes = mystyle();
   const dispatch = useAppDispatch();
   const { entries } = useSelector((state: rootState) => state);
@@ -143,39 +144,24 @@ const EntriesList: FC<props> = ({ setIsEditing }) => {
                             : entries.content}
                         </Typography>
                       </Box>
-                      <Box py={1}>
-                        <Button
-                          onClick={() => setIsEditing(true)}
-                          color="secondary"
-                          variant="contained"
-                          disableElevation
-                          style={{ fontSize: "12px", marginRight: "10px" }}
-                        >
-                          Edit
-                        </Button>
-
-                        {/* {user?.id === diaries.userId && !IsEditing ? (
+                      {!IsEditing ? (
+                        <Box py={1}>
                           <Button
-                            color="primary"
+                            onClick={() => setIsEditing(true)}
+                            color="secondary"
                             variant="contained"
                             disableElevation
-                            onClick={() => {
-                              setDiaryId(diaries.id);
-                              setIsEditing(true);
-                            }}
-                            style={{ fontSize: "12px" }}
+                            style={{ fontSize: "12px", marginRight: "10px" }}
                           >
                             <a
                               style={{ textDecoration: "none", color: "white" }}
                               href="#editForm"
                             >
-                              edit
+                              Edit
                             </a>
                           </Button>
-                        ) : (
-                          ""
-                        )} */}
-                      </Box>
+                        </Box>
+                      ) : null}
                     </div>
                   </div>
                 </Grid>

@@ -176,23 +176,15 @@ const DiariesList: FC<props> = ({
                         </Typography>
                       </Box>
                       <Box py={1}>
-                        <Button
-                          color="secondary"
-                          variant="contained"
-                          disableElevation
-                          style={{ fontSize: "12px", marginRight: "10px" }}
-                        >
-                          Add Note
-                        </Button>
                         <Link
                           style={{ textDecoration: "none" }}
                           to={`diary/${diaries.id}`}
                         >
                           <Button
-                            color="primary"
+                            color="secondary"
                             variant="contained"
                             disableElevation
-                            style={{ fontSize: "12px" }}
+                            style={{ fontSize: "12px", marginRight: "10px" }}
                           >
                             Notes (
                             {!!diaries.entryIds && diaries.entryIds.length
@@ -217,7 +209,7 @@ const DiariesList: FC<props> = ({
                               style={{ textDecoration: "none", color: "white" }}
                               href="#editForm"
                             >
-                              edit
+                              Edit
                             </a>
                           </Button>
                         ) : (

@@ -8,6 +8,8 @@ import { ThemeProvider } from "@material-ui/core";
 import { theme } from "./theme";
 //reducer type
 import { rootState } from "./store/rootReducer";
+//nav
+import Header from "./components/layout/header";
 
 //pages
 const Login = lazy(() => import("./pages/index"));
@@ -26,6 +28,7 @@ const App: FC = () => {
       <ThemeProvider theme={theme}>
         <Router>
           <Suspense fallback={<p>loading</p>}>
+            <Header />
             <Routes>
               {isLoggedIn ? (
                 <>

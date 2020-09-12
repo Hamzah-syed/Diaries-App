@@ -24,6 +24,7 @@ import http from "../../services/api";
 import { setcurrentlyEditting } from "../../features/entry/editorSlice";
 import { updateDiary } from "../../features/diary/diariesSlice";
 import { useAppDispatch } from "../../store";
+import { showAlert } from "../../util";
 
 const useStyle = makeStyles((theme) => ({
   root: {
@@ -79,13 +80,13 @@ const AddEntries: FC = () => {
       .post<Entry, { diary: Diary; entry: Entry }>(path, data)
       .then((entry) => {
         if (data != null) {
-          console.log(entry);
+          showAlert("Entry added successfully", "success");
           const { diary, entry: _entry } = entry;
           dispatch(setcurrentlyEditting(_entry));
           dispatch(updateDiary(diary));
         }
       });
-    reset();
+    reset({ title: "", content: "" });
   };
 
   return (
@@ -97,7 +98,7 @@ const AddEntries: FC = () => {
             className="textBlackSecondary"
             style={{ fontWeight: 600 }}
           >
-            Add Entry thak
+            Add Entry
           </Typography>
         </Box>
         <form onSubmit={handleSubmit(formSubmit)}>
@@ -143,9 +144,6 @@ const AddEntries: FC = () => {
           </Box>
         </form>
       </Grid>
-      <div style={{ width: "100%", paddingTop: "30px" }}>
-        {/* <DiariesList /> */}
-      </div>
     </div>
   );
 };

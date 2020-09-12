@@ -31,6 +31,7 @@ import {
   RadioGroup,
   makeStyles,
   FormHelperText,
+  Typography,
 } from "@material-ui/core";
 //yup and react form for validation
 import * as Yup from "yup";
@@ -111,58 +112,6 @@ const Diaries: FC = () => {
     (diary) => diary.id === DiaryId
   );
 
-  const createDiary = async () => {
-    const result: any = await Swal.mixin({
-      input: "text",
-      confirmButtonText: "Next →",
-      showCancelButton: true,
-      progressSteps: ["1", "2"],
-    }).queue([
-      {
-        titleText: "Diary title",
-        input: "text",
-      },
-      {
-        titleText: "Private or public diary?",
-        input: "radio",
-        inputOptions: {
-          private: "Private",
-          public: "Public",
-        },
-        inputValue: "private",
-      },
-    ]);
-    if (result.value) {
-      const { value } = result;
-      const { diary, user: _user } = await http.post<
-        Partial<Diary>,
-        { diary: Diary; user: User }
-      >("/diaries/", {
-        title: value[0],
-        type: value[1],
-        userId: user?.id,
-      });
-      if (diary && user) {
-        dispatch(addDiary([diary] as Diary[]));
-        dispatch(addDiary([diary] as Diary[]));
-        dispatch(setUser(_user));
-        return Swal.fire({
-          titleText: "All done!",
-          confirmButtonText: "OK!",
-        });
-      }
-    }
-    Swal.fire({
-      titleText: "Cancelled",
-    });
-  };
-
-  const logout = () => {
-    if (user !== null) {
-      dispatch(setAuthState(false));
-    }
-  };
-
   const { handleSubmit, errors, control, reset } = useForm<Diary>({
     resolver: yupResolver(schema),
   });
@@ -190,7 +139,7 @@ const Diaries: FC = () => {
         .then((diary) => {
           if (diary) {
             dispatch(updateDiary(diary));
-            showAlert("Saved!", "success");
+            showAlert("Diary added successfully", "success");
           }
         })
         .finally(() => {
@@ -199,7 +148,7 @@ const Diaries: FC = () => {
       setIsEditing(false);
       setDiaryId("");
     }
-    reset({ title: "", type: data.type });
+    reset({ title: "", description: "", type: data.type });
   };
 
   return (
@@ -208,8 +157,17 @@ const Diaries: FC = () => {
         <Container>
           <div className={classes.root}>
             <Grid container>
-              <Grid item sm={8} style={{ width: "100%" }}>
+              <Grid item sm={12} style={{ width: "100%" }}>
                 <Grid item className={classes.addDiary}>
+                  <Box pb={2}>
+                    <Typography
+                      variant="h5"
+                      className="textBlackSecondary"
+                      style={{ fontWeight: 600 }}
+                    >
+                      Add Diary
+                    </Typography>
+                  </Box>
                   {DiaryId === "" ? (
                     <form onSubmit={handleSubmit(formSubmit)}>
                       <Box py={1}>
@@ -271,11 +229,6 @@ const Diaries: FC = () => {
                                   label="Private"
                                 />
                               </span>
-                              <FormControlLabel
-                                value="followers"
-                                control={<Radio />}
-                                label="Followers"
-                              />
                             </RadioGroup>
                           }
                           name="type"
@@ -324,28 +277,10 @@ const Diaries: FC = () => {
                   />
                 </div>
               </Grid>
-              <Grid item sm={4} container></Grid>
             </Grid>
           </div>
         </Container>
       </div>
-
-      {/* <Routes> */}
-      {/* <Route path="/diary/:id">
-          <DiaryEntriesList />
-        </Route> */}
-
-      {/* {/* {diaries.map((diaries) => (
-            <h1>{diaries.title}</h1>
-        ))} */}
-      {/* <Button onClick={createDiary}>Create New</Button>
-      {diaries.map((diary, idx) => (
-        <DiaryTile key={idx} diary={diary} />
-      ))} */}
-      {/* <Route path="/">
-      </Route> */}
-      {/* </Routes> */}
-      <Button onClick={logout}>Logout</Button>
     </div>
   );
 };
