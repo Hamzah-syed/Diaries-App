@@ -6,8 +6,7 @@ import { Box, Container, Grid, Hidden } from "@material-ui/core";
 //components
 import AddEntries from "../components/entries/addEntries";
 import EntriesList from "../components/entries/entriesList";
-//inderface
-import { Entry } from "../interfaces/entry.interface";
+import EntryEdit from "../components/entries/editEntry";
 
 const useStyle = makeStyles((theme) => ({
   root: {
@@ -18,8 +17,9 @@ const useStyle = makeStyles((theme) => ({
 
 const Entries = () => {
   const classes = useStyle();
-  const [rerender, setRerender] = useState<Boolean>(false);
+  //isEditing
 
+  const [isEditing, setIsEditing] = useState<boolean>(false);
   return (
     <div className="sectionPadding">
       <Container>
@@ -27,9 +27,17 @@ const Entries = () => {
           <Grid container>
             <Grid item sm={8} xs={12} container>
               <Grid direction="column" container item sm={12}>
-                <AddEntries setRerender={setRerender} />
-
-                <EntriesList setRerender={setRerender} rerender={rerender} />
+                {!isEditing ? (
+                  <AddEntries />
+                ) : (
+                  <Routes>
+                    <Route
+                      path="/"
+                      element={<EntryEdit setIsEditing={setIsEditing} />}
+                    ></Route>
+                  </Routes>
+                )}
+                <EntriesList setIsEditing={setIsEditing} />
               </Grid>
             </Grid>
             <Grid item sm={4} container>

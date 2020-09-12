@@ -30,8 +30,6 @@ import { Entry } from "../../interfaces/entry.interface";
 const mystyle = makeStyles((theme) => ({
   root: {
     width: "100%",
-
-    paddingTop: "30px",
   },
   cardParent: {
     background: "#f9f9f9",
@@ -52,7 +50,7 @@ const mystyle = makeStyles((theme) => ({
     height: "1px",
     width: "100%",
     background: "#D2D2D2",
-    margin: "20px 0",
+    marginTop: "10px 0",
   },
 }));
 
@@ -66,11 +64,10 @@ const mystyle = makeStyles((theme) => ({
 
 //interface
 interface props {
-  rerender: Boolean;
-  setRerender: React.Dispatch<React.SetStateAction<Boolean>>;
+  setIsEditing: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-const EntriesList: FC<props> = ({ rerender, setRerender }) => {
+const EntriesList: FC<props> = ({ setIsEditing }) => {
   const classes = mystyle();
   const dispatch = useAppDispatch();
   const { entries } = useSelector((state: rootState) => state);
@@ -104,8 +101,6 @@ const EntriesList: FC<props> = ({ rerender, setRerender }) => {
   //   });
 
   //User stored in redux
-
-  const user = useSelector((state: rootState) => state.user);
 
   return (
     <div>
@@ -150,12 +145,13 @@ const EntriesList: FC<props> = ({ rerender, setRerender }) => {
                       </Box>
                       <Box py={1}>
                         <Button
+                          onClick={() => setIsEditing(true)}
                           color="secondary"
                           variant="contained"
                           disableElevation
                           style={{ fontSize: "12px", marginRight: "10px" }}
                         >
-                          Add Note
+                          Edit
                         </Button>
 
                         {/* {user?.id === diaries.userId && !IsEditing ? (

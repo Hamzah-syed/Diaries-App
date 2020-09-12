@@ -14,7 +14,7 @@ const Entries = createSlice({
       const { id } = payload;
       const entryIndex = state.findIndex((entry) => entry.id === id);
       if (entryIndex !== -1) {
-        return state.splice(entryIndex, 1, payload);
+        state.splice(entryIndex, 1, payload);
       }
     },
   },

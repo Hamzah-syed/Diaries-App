@@ -30,7 +30,7 @@ const App: FC = () => {
               {isLoggedIn ? (
                 <>
                   <Route path="/" element={<Home />}></Route>
-                  <Route path="/diary/:id" element={<Entries />}></Route>
+                  <Route path="/diary/:id/*" element={<Entries />}></Route>
                   <Route path="/editor" element={<Editor />}></Route>
                 </>
               ) : (
