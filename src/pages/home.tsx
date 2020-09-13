@@ -1,8 +1,7 @@
 import React, { FC } from "react";
 import Diaries from "./diaries";
-import Editor from "./editor";
 
-const Home = () => {
+const Home: FC = () => {
   return (
     <div>
       <div className="left">

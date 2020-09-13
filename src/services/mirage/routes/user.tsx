@@ -21,7 +21,7 @@ const signin = (schema: any, req: Request): AuthResponse | Response => {
   if (!user) {
     return handleError(null, "User does not exist");
   }
-  if (password != user.password) {
+  if (password !== user.password) {
     return handleError(null, "Incorrect password");
   }
 

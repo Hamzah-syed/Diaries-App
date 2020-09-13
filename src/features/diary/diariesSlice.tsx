@@ -1,7 +1,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 //interface
 import { Diary } from "../../interfaces/diary.interface";
-import { setAuthState } from "../auth/authSlice";
 
 const diaries = createSlice({
   name: "diaries",

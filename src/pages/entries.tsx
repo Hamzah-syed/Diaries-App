@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Routes, Route } from "react-router-dom";
 //mui
 import { makeStyles } from "@material-ui/core";
-import { Box, Container, Grid, Hidden } from "@material-ui/core";
+import { Container, Grid } from "@material-ui/core";
 //components
 import AddEntries from "../components/entries/addEntries";
 import EntriesList from "../components/entries/entriesList";

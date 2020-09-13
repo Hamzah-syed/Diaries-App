@@ -11,10 +11,6 @@ import {
   Grid,
   Button,
   TextField,
-  FormControlLabel,
-  Radio,
-  RadioGroup,
-  FormHelperText,
   Typography,
 } from "@material-ui/core";
 //redux
@@ -26,9 +22,7 @@ import { setcurrentlyEditting } from "../../features/entry/editorSlice";
 
 // reack-hook-form
 import { useForm, Controller } from "react-hook-form";
-import { updateDiary } from "../../features/diary/diariesSlice";
-// interfaces
-import { Diary } from "../../interfaces/diary.interface";
+
 //sweetAlert
 import { showAlert } from "../../util";
 import { Entry } from "../../interfaces/entry.interface";
@@ -62,7 +56,7 @@ const EntryEdit: FC<props> = ({ setIsEditing }) => {
   const dispatch = useAppDispatch();
 
   //ENTRY WHICH NEED TO BE EDIT
-  const { currentlyEditting: entry, canEdit } = useSelector(
+  const { currentlyEditting: entry } = useSelector(
     (state: rootState) => state.editor
   );
 

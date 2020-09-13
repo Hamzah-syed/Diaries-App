@@ -6,7 +6,6 @@ import { yupResolver } from "@hookform/resolvers";
 import http from "../../services/api";
 //mui
 import {
-  makeStyles,
   Box,
   Button,
   TextField,
@@ -25,33 +24,6 @@ import { Diary } from "../../interfaces/diary.interface";
 //sweetAlert
 import { showAlert } from "../../util";
 
-const useStyle = makeStyles((theme) => ({
-  root: {
-    background: "#fff",
-    width: "100%",
-  },
-  addDiary: {
-    width: "100%",
-    background: "#F9F9F9",
-    borderRadius: "7px",
-  },
-  textFeild: {
-    width: "100%",
-    backgorund: "white",
-    padding: "12px 15px",
-    borderRadius: "5px",
-    border: "none",
-    "&:focus": {
-      outline: "red",
-      border: "red",
-    },
-  },
-  [theme.breakpoints.down("md")]: {
-    boxShadow:
-      "0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)",
-    background: "white",
-  },
-}));
 //validation schema
 const schema = Yup.object().shape({
   title: Yup.string()
@@ -78,7 +50,6 @@ const DiaryEdit: FC<props> = ({
   setDiaryId,
   setIsEditing,
 }) => {
-  const classes = useStyle();
   const dispatch = useAppDispatch();
 
   const { handleSubmit, errors, control, reset } = useForm<Diary>({
@@ -144,16 +115,9 @@ const DiaryEdit: FC<props> = ({
         <Box py={1}>
           <Controller
             as={
-              <RadioGroup
-                row
-                aria-label="gender"
-                // value={EditDiary?.type}
-                // onChange={handleChange}
-              >
+              <RadioGroup row aria-label="gender">
                 <span>
                   <FormControlLabel
-                    // checked={EditDiary?.type === "public" ? true : false}
-
                     value="public"
                     control={<Radio />}
                     label="Public"
@@ -161,7 +125,6 @@ const DiaryEdit: FC<props> = ({
                 </span>
                 <span>
                   <FormControlLabel
-                    // checked={EditDiary?.type === "private" ? true : undefined}
                     spellCheck
                     value="private"
                     control={<Radio />}

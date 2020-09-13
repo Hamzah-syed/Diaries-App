@@ -4,9 +4,9 @@ import { rootState } from "../store/rootReducer";
 import http from "../services/api";
 import { Diary } from "../interfaces/diary.interface";
 import { addDiary } from "../features/diary/diariesSlice";
-import Swal from "sweetalert2";
+
 import { setUser } from "../features/auth/userSlice";
-import DiaryTile from "./diaryTile";
+
 import { User } from "../interfaces/user.interface";
 import { Route, Routes } from "react-router-dom";
 
@@ -14,7 +14,7 @@ import { showAlert } from "../util";
 import { updateDiary } from "../features/diary/diariesSlice";
 import { useAppDispatch } from "../store";
 import dayjs from "dayjs";
-import { setAuthState } from "../features/auth/authSlice";
+
 //components
 import DiariesList from "../components/diaries/diariesList";
 import DiaryEdit from "../components/diaries/diaryEdit";

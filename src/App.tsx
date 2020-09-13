@@ -1,5 +1,5 @@
 import React, { FC, lazy, Suspense } from "react";
-import logo from "./logo.svg";
+
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 //redux
 import { useSelector } from "react-redux";
@@ -18,7 +18,7 @@ import Simpleloader from "./components/loading/simpleloader";
 const Login = lazy(() => import("./pages/index"));
 const SignUp = lazy(() => import("./pages/signUp"));
 const Home = lazy(() => import("./pages/home"));
-const Editor = lazy(() => import("./pages/editor"));
+
 const Entries = lazy(() => import("./pages/entries"));
 const Page404 = lazy(() => import("./pages/Page404"));
 
@@ -37,7 +37,6 @@ const App: FC = () => {
                 <>
                   <Route path="/" element={<Home />}></Route>
                   <Route path="/diary/:id/*" element={<Entries />}></Route>
-                  <Route path="/editor" element={<Editor />}></Route>
                 </>
               ) : (
                 <>

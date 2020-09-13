@@ -8,7 +8,7 @@ import { yupResolver } from "@hookform/resolvers";
 //api
 import http from "../services/api";
 //redux slice
-import { setAuthState, saveToken } from "../features/auth/authSlice";
+
 import { setUser } from "../features/auth/userSlice";
 //interface
 import { User } from "../interfaces/user.interface";
@@ -93,7 +93,7 @@ const SignUp: FC = () => {
       .post<User, AuthResponse>(path, data)
       .then((res) => {
         if (res) {
-          const { token, user } = res;
+          const { user } = res;
           // dispatch(saveToken(token));
           dispatch(setUser(user));
           // dispatch(setAuthState(true));

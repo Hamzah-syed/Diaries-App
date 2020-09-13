@@ -6,25 +6,16 @@ import dayjs from "dayjs";
 //redux
 import { addEntry } from "../../features/entry/entriesSlice";
 import { useAppDispatch } from "../../store";
-import { setcurrentlyEditting } from "../../features/entry/editorSlice";
+
 //root reducer Type
 import { rootState } from "../../store/rootReducer";
 //api
 import http from "../../services/api";
-//ReactROuter
-import { Link } from "react-router-dom";
 
 //mui
-import {
-  makeStyles,
-  Box,
-  Grid,
-  Avatar,
-  Typography,
-  Button,
-} from "@material-ui/core";
+import { makeStyles, Box, Grid, Typography, Button } from "@material-ui/core";
 //interfaces
-import { Diary } from "../../interfaces/diary.interface";
+
 import { Entry } from "../../interfaces/entry.interface";
 
 const mystyle = makeStyles((theme) => ({
