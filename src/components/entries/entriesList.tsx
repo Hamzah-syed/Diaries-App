@@ -30,6 +30,7 @@ import { Entry } from "../../interfaces/entry.interface";
 const mystyle = makeStyles((theme) => ({
   root: {
     width: "100%",
+    paddingTop: "20px",
   },
   cardParent: {
     background: "#f9f9f9",

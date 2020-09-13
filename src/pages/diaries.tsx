@@ -129,6 +129,7 @@ const Diaries: FC = () => {
         userId: user?.id,
       });
       if (diary && user) {
+        showAlert("Diary added successfully", "success");
         dispatch(addDiary([diary] as Diary[]));
         dispatch(setUser(_user));
       }
@@ -139,13 +140,12 @@ const Diaries: FC = () => {
         .then((diary) => {
           if (diary) {
             dispatch(updateDiary(diary));
-            showAlert("Diary added successfully", "success");
           }
         })
         .finally(() => {
           setIsEditing(false);
         });
-      setIsEditing(false);
+      // setIsEditing(false);
       setDiaryId("");
     }
     reset({ title: "", description: "", type: data.type });

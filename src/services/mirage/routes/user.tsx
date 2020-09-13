@@ -16,13 +16,13 @@ export interface AuthResponse {
 const signin = (schema: any, req: Request): AuthResponse | Response => {
   //email and password are extracting from the input provided by user
   const { email, password } = JSON.parse(req.requestBody);
-  const user = schema.users.findBy({ email, password });
 
-  if (email !== user.email) {
-    handleError(null, "User does not exist");
+  const user = schema.users.findBy({ email });
+  if (!user) {
+    return handleError(null, "User does not exist");
   }
-  if (password !== user.password) {
-    handleError(null, "Incorrect password");
+  if (password != user.password) {
+    return handleError(null, "Incorrect password");
   }
 
   const token = genrateToken();
@@ -36,7 +36,7 @@ const signup = (schema: any, req: Request): AuthResponse | Response => {
   // cheking if user already exist
   const exUser = schema.users.findBy({ email: data.email });
   if (exUser) {
-    handleError(null, "User already exist");
+    return handleError(null, "User with this email already exist");
   }
 
   const user = schema.users.create(data);

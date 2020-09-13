@@ -59,7 +59,14 @@ export default function Header() {
   return (
     <div className={classes.root}>
       {isAuthenticated ? (
-        <AppBar position="static" style={{ background: "#F9F9F9" }}>
+        <AppBar
+          position="static"
+          style={{
+            background: "#F9F9F9",
+            boxShadow:
+              "0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)",
+          }}
+        >
           <Container>
             <Toolbar>
               <Typography
