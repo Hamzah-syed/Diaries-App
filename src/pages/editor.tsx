@@ -26,7 +26,7 @@ const useStyle = makeStyles((theme) => ({
 const Editor: FC = () => {
   const classes = useStyle();
 
-  const { currentlyEditting: entry, canEdit, activeDiaryId } = useSelector(
+  const { currentlyEditting: entry, canEdit } = useSelector(
     (state: rootState) => state.editor
   );
   //state
@@ -35,12 +35,12 @@ const Editor: FC = () => {
   const dispatch = useAppDispatch();
 
   const saveEntry = async () => {
-    if (activeDiaryId === null) {
-      return showAlert("Please select diary.", "warning");
-    }
+    // if (activeDiaryId === null) {
+    //   return showAlert("Please select diary.", "warning");
+    // }
 
     if (entry === null) {
-      const path = `/diaries/entry/${activeDiaryId}`;
+      const path = `/diaries/entry/${"1"}`;
       http
         .post<Entry, { diary: Diary; entry: Entry }>(path, editedEntry)
         .then((data) => {

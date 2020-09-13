@@ -7,6 +7,7 @@ import { Box, Container, Grid, Hidden } from "@material-ui/core";
 import AddEntries from "../components/entries/addEntries";
 import EntriesList from "../components/entries/entriesList";
 import EntryEdit from "../components/entries/editEntry";
+import DiaryEntry from "../components/entries/diaryEntry";
 
 const useStyle = makeStyles((theme) => ({
   root: {
@@ -25,7 +26,7 @@ const Entries = () => {
       <div className="sectionPadding">
         <Container>
           <div className={classes.root}>
-            <Grid container>
+            <Grid container spacing={1}>
               <Grid item sm={8} xs={12} container>
                 <Grid direction="column" container item sm={12}>
                   {!isEditing ? (
@@ -45,7 +46,7 @@ const Entries = () => {
                 </Grid>
               </Grid>
               <Grid item sm={4} container>
-                <Hidden xsDown>hamzah</Hidden>
+                <DiaryEntry />
               </Grid>
             </Grid>
           </div>

@@ -84,9 +84,9 @@ const DiaryTile: FC<props> = (props) => {
         <div style={{ display: "flex" }}>
           <button
             onClick={() => {
-              dispatch(setCanEdit(true));
-              dispatch(setActiveDiary(diary.id as string));
-              dispatch(setcurrentlyEditting(null));
+              // dispatch(setCanEdit(true));
+              // // dispatch(setActiveDiary(diary.id as string));
+              // dispatch(setcurrentlyEditting(null));
             }}
           >
             Add New Entry

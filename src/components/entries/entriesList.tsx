@@ -75,7 +75,7 @@ const EntriesList: FC<props> = ({ setIsEditing, IsEditing }) => {
   const { entries } = useSelector((state: rootState) => state);
   //   const { setcurrentlyEditting } = useSelector((state: rootState) => state);
   const { id } = useParams();
-  const { currentlyEditting: entry, canEdit, activeDiaryId } = useSelector(
+  const { currentlyEditting: entry } = useSelector(
     (state: rootState) => state.editor
   );
 

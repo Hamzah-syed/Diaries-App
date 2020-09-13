@@ -10,14 +10,15 @@ import { theme } from "./theme";
 import { rootState } from "./store/rootReducer";
 //nav
 import Header from "./components/layout/header";
-
+//loader
+import MainLoading from "./components/loading/mainLoading";
 //pages
 const Login = lazy(() => import("./pages/index"));
 const SignUp = lazy(() => import("./pages/signUp"));
 const Home = lazy(() => import("./pages/home"));
 const Editor = lazy(() => import("./pages/editor"));
 const Entries = lazy(() => import("./pages/entries"));
-const Demo = lazy(() => import("./pages/demo"));
+const Page404 = lazy(() => import("./pages/Page404"));
 
 const App: FC = () => {
   const isLoggedIn = useSelector(
@@ -42,7 +43,7 @@ const App: FC = () => {
                   <Route path="/signup" element={<SignUp />}></Route>
                 </>
               )}
-              <Route path="*" element={<Demo />}></Route>
+              <Route path="*" element={<Page404 />}></Route>
             </Routes>
           </Suspense>
         </Router>

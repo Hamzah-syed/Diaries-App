@@ -4,6 +4,7 @@ import { useSelector } from "react-redux";
 import dayjs from "dayjs";
 //useDispatch for updating diaries
 import { useAppDispatch } from "../../store";
+import { setActiveDiary } from "../../features/entry/editorSlice";
 //ReactROuter
 import { Link } from "react-router-dom";
 
@@ -65,6 +66,8 @@ const DiariesList: FC<props> = ({
   IsEditing,
 }) => {
   const classes = mystyle();
+  //dispatch
+  const dispatch = useAppDispatch();
   //sorting diaries data according to updatedDate
   const sortedByUpdatedAt = diaries.slice().sort((a, b) => {
     return dayjs(b.updatedAt).isAfter(dayjs(a.updatedAt)) ? 1 : -1;
@@ -123,14 +126,6 @@ const DiariesList: FC<props> = ({
                             >
                               Follow
                             </Button>
-                            {/* <Typography
-                        variant="subtitle2"
-                        style={{ color: "#B7B7B7" }}
-                      >
-                        Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                        Corporis quas expedita ex similique optio! Velit et
-                        ducimus debitis iusto, est beatae eius suscipit
-                      </Typography> */}
                           </Box>
                         </Box>
                       </div>
@@ -185,6 +180,7 @@ const DiariesList: FC<props> = ({
                             variant="contained"
                             disableElevation
                             style={{ fontSize: "12px", marginRight: "10px" }}
+                            onClick={() => dispatch(setActiveDiary(diaries))}
                           >
                             Notes (
                             {!!diaries.entryIds && diaries.entryIds.length

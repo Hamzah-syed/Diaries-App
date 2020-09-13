@@ -1,17 +1,18 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { Diary } from "../../interfaces/diary.interface";
 //interce
 import { Entry } from "../../interfaces/entry.interface";
 
 interface EditorState {
   canEdit: boolean;
   currentlyEditting: Entry | null;
-  activeDiaryId: string | null;
+  activeDiary: Diary | null;
 }
 
 const initialState: EditorState = {
   canEdit: false,
   currentlyEditting: null,
-  activeDiaryId: null,
+  activeDiary: null,
 };
 
 const editor = createSlice({
@@ -24,8 +25,9 @@ const editor = createSlice({
     setcurrentlyEditting(state, { payload }: PayloadAction<Entry | null>) {
       state.currentlyEditting = payload;
     },
-    setActiveDiary(state, { payload }: PayloadAction<string | null>) {
-      state.activeDiaryId = payload;
+    //diary data which is editing
+    setActiveDiary(state, { payload }: PayloadAction<Diary | null>) {
+      state.activeDiary = payload;
     },
   },
 });
