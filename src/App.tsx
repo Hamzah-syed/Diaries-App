@@ -11,7 +11,7 @@ import { rootState } from "./store/rootReducer";
 //nav
 import Header from "./components/layout/header";
 //loader
-import MainLoading from "./components/loading/mainLoading";
+import Simpleloader from "./components/loading/simpleloader";
 //pages
 const Login = lazy(() => import("./pages/index"));
 const SignUp = lazy(() => import("./pages/signUp"));
@@ -28,7 +28,7 @@ const App: FC = () => {
     <div>
       <ThemeProvider theme={theme}>
         <Router>
-          <Suspense fallback={<p>loading</p>}>
+          <Suspense fallback={<Simpleloader />}>
             <Header />
             <Routes>
               {isLoggedIn ? (
