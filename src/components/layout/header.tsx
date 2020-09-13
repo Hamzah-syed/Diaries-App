@@ -1,5 +1,5 @@
 import React from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Typography from "@material-ui/core/Typography";
 import { Avatar, Button, Container, makeStyles } from "@material-ui/core";
 import AppBar from "@material-ui/core/AppBar";
@@ -13,6 +13,8 @@ import { useAppDispatch } from "../../store";
 import { rootState } from "../../store/rootReducer";
 import { setAuthState, clearToken } from "../../features/auth/authSlice";
 import { setUser } from "../../features/auth/userSlice";
+//logo
+import Logo from "../../assets/images/logo.png";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -23,6 +25,10 @@ const useStyles = makeStyles((theme) => ({
   },
   title: {
     flexGrow: 1,
+  },
+  titleLink: {
+    textDecoration: "none",
+    color: "rgb(60,60,60)",
   },
   avatar: {
     background: theme.palette.secondary.main,
@@ -69,11 +75,14 @@ export default function Header() {
         >
           <Container>
             <Toolbar>
+              <img src={Logo} width="60px" height="60px" alt="diary" />
               <Typography
                 variant="h5"
                 className={` textBlackSecondary ${classes.title}`}
               >
-                DiaryApp
+                <Link to="/" className={classes.titleLink}>
+                  DiaryApp
+                </Link>
               </Typography>
 
               <div>

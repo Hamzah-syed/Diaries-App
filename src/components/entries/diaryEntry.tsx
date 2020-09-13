@@ -81,7 +81,7 @@ const DiaryEntry = () => {
             </Typography>
           </Box>
           <Box pt={2}>
-            <Link to={"/"}>
+            <Link to={"/"} style={{ textDecoration: "none" }}>
               <Button
                 color="primary"
                 variant="contained"

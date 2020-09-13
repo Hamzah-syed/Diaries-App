@@ -10,6 +10,8 @@ import { theme } from "./theme";
 import { rootState } from "./store/rootReducer";
 //nav
 import Header from "./components/layout/header";
+//footer
+import Footer from "./components/layout/footer";
 //loader
 import Simpleloader from "./components/loading/simpleloader";
 //pages
@@ -45,6 +47,7 @@ const App: FC = () => {
               )}
               <Route path="*" element={<Page404 />}></Route>
             </Routes>
+            <Footer />
           </Suspense>
         </Router>
       </ThemeProvider>
