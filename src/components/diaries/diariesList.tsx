@@ -66,6 +66,8 @@ const DiariesList: FC<props> = ({
   IsEditing,
 }) => {
   const classes = mystyle();
+  //User stored in redux
+  const user = useSelector((state: rootState) => state.user);
   //dispatch
   const dispatch = useAppDispatch();
   //sorting diaries data according to updatedDate
@@ -73,16 +75,22 @@ const DiariesList: FC<props> = ({
     return dayjs(b.updatedAt).isAfter(dayjs(a.updatedAt)) ? 1 : -1;
   });
 
-  //User stored in redux
-  const user = useSelector((state: rootState) => state.user);
+  //setting private and public data
+  const filteredData = sortedByUpdatedAt.filter((diary) => {
+    if (diary.userId === user?.id) {
+      return sortedByUpdatedAt;
+    } else {
+      return diary.type !== "private";
+    }
+  });
 
   return (
     <div>
       <div>
         <div className={classes.root}>
           <Grid container style={{ width: "100%", margin: 0 }} spacing={2}>
-            {!!sortedByUpdatedAt &&
-              sortedByUpdatedAt.map((diaries: Diary, i: number) => (
+            {!!filteredData &&
+              filteredData.map((diaries: Diary, i: number) => (
                 <Grid item md={6} xs={12} key={i}>
                   <div className={classes.cardParent}>
                     <div className={classes.card}>
