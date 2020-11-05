@@ -72,7 +72,7 @@ const DiaryEdit: FC<props> = ({
       });
     setIsEditing(false);
     setDiaryId("");
-    reset({ title: "", description: "", type: data.type });
+    // reset({ title: "", description: "", type: data.type });
   };
 
   return (
