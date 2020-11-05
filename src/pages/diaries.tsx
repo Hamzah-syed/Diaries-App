@@ -112,7 +112,7 @@ const Diaries: FC = () => {
     (diary) => diary.id === DiaryId
   );
 
-  const { handleSubmit, errors, control, reset } = useForm<Diary>({
+  const { handleSubmit, errors, control, reset } = useForm<any>({
     resolver: yupResolver(schema),
   });
 
