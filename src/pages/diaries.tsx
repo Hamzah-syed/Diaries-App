@@ -148,7 +148,7 @@ const Diaries: FC = () => {
       // setIsEditing(false);
       setDiaryId("");
     }
-    // reset({ title: "", description: "", type: data.type });
+    reset({ title: "", description: "", type: data.type });
   };
 
   return (

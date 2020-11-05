@@ -52,7 +52,7 @@ const DiaryEdit: FC<props> = ({
 }) => {
   const dispatch = useAppDispatch();
 
-  const { handleSubmit, errors, control, reset } = useForm<Diary>({
+  const { handleSubmit, errors, control, reset } = useForm<any>({
     resolver: yupResolver(schema),
   });
 
@@ -72,7 +72,7 @@ const DiaryEdit: FC<props> = ({
       });
     setIsEditing(false);
     setDiaryId("");
-    // reset({ title: "", description: "", type: data.type });
+    reset({ title: "", description: "", type: data.type });
   };
 
   return (
